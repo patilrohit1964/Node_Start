@@ -1,0 +1,28 @@
+{
+    "product": [
+        {
+            "id": 5,
+            "title": "kaju",
+            "price": 109,
+            "description": "farmer nature made",
+            "category": "electronics",
+            "image": "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg",
+            "rating": {
+                "rate": 4.8,
+                "count": 319
+            }
+        },
+        {
+            "id": 1,
+            "title": "ladu chivda methi na ladu shankar pada",
+            "price": 109,
+            "description": "farmer nature made",
+            "category": "electronics",
+            "image": "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg",
+            "rating": {
+                "rate": 4.8,
+                "count": 319
+            }
+        }
+    ]
+}
