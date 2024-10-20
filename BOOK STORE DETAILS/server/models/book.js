@@ -6,6 +6,7 @@ const schema = new mongoose.Schema({
   price: Number,
   description: String,
   isbn: String,
+  image: String,
 });
 
 const BookModel = mongoose.model("BookStore", schema);

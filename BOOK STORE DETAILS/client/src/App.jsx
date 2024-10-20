@@ -14,7 +14,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={<BookList />} />
         <Route path='/book-form' element={<BookForm />} />
-        <Route path='/book-details' element={<BookDetails />} />
+        <Route path='/book-form/:id' element={<BookForm />} />
+        <Route path='/book-details/:id' element={<BookDetails />} />
       </Routes>
 
       <Toaster position='top-center' />

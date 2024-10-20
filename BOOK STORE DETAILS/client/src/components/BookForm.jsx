@@ -2,15 +2,21 @@ import axios from 'axios';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 const bookInitialValues = {
     title: '',
     author: '',
     description: '',
     price: '',
-    isbn: ''
+    isbn: '',
+    image: '',
 }
 const BookForm = () => {
-    // update function
+    
+    const { id } = useParams();
+    const navigate = useNavigate();
+    // add function function
     const addBook = async (values, { resetForm }) => {
         try {
             const addBook = await axios.post("http://localhost:8080/book/addBook", values);
@@ -23,6 +29,20 @@ const BookForm = () => {
             resetForm();
         }
     }
+
+    const updateBook = async (values, { resetForm }) => {
+        try {
+            const updateBook = await axios.put(`http://localhost:8080/book/updateBook/${id}`, values);
+            if (updateBook.status === 200) {
+                toast.success(updateBook.data);
+                navigate("/");
+                resetForm();
+            }
+        } catch (error) {
+            toast.error(updateBook.data);
+        }
+    }
+
     const bookInputValidation = Yup.object({
         title: Yup.string().min(3, "Minimum 3 Characters").required(),
         author: Yup.string().min(3, "Minimum 3 Characters").required(),
@@ -34,13 +54,32 @@ const BookForm = () => {
     const validationFunction = useFormik({
         initialValues: bookInitialValues,
         validationSchema: bookInputValidation,
-        onSubmit: addBook
+        onSubmit: id ? updateBook : addBook
     });
 
+    useEffect(() => {
+        if (id) {
+            const getBookById = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:8080/book/getBookById/${id}`);
+                    if (response.status === 200) {
+                        validationFunction.setValues(response.data);
+                    }
+                } catch (error) {
+                    toast.error("something went wrong");
+                }
+            }
+            getBookById();
+        }
+    }, [])
     return (
         <div className='h-screen flex justify-center items-center'>
             <form className="modal-box" onSubmit={validationFunction.handleSubmit}>
-                <h3 className="font-bold text-lg text-center mb-3">Add New Book</h3>
+                <h3 className="font-bold text-lg text-center mb-3">{id ? "Update Book" : "Add New Book"}</h3>
+                <div className='mb-4 text-center'>
+                    <input type="text" name='image' placeholder="Book Image Url" value={validationFunction.values.image} className="input input-bordered input-primary w-full max-w-xs" onChange={validationFunction.handleChange} onBlur={validationFunction.handleBlur} />
+                    {validationFunction.touched.image && validationFunction.errors.image ? <div className='text-red-500'>Field required</div> : null}
+                </div>
                 <div className='mb-4 text-center'>
                     <input type="text" name='title' placeholder="Book Title" value={validationFunction.values.title} className="input input-bordered input-primary w-full max-w-xs" onChange={validationFunction.handleChange} onBlur={validationFunction.handleBlur} />
                     {validationFunction.touched.title && validationFunction.errors.title ? <div className='text-red-500'>Field required</div> : null}
@@ -61,7 +100,7 @@ const BookForm = () => {
                     <input type="text" name='isbn' placeholder="Book ISBN" value={validationFunction.values.isbn} className="input input-bordered input-primary w-full max-w-xs" onChange={validationFunction.handleChange} onBlur={validationFunction.handleBlur} />
                     {validationFunction.touched.isbn && validationFunction.errors.isbn ? <div className='text-red-500'>Field required</div> : null}
                 </div>
-                <button className='btn btn-primary block m-auto' type='submit'>Update</button>
+                <button className='btn btn-primary block m-auto' type='submit'>{id ? "Update Book" : "Add Book"}</button>
             </form>
             <form method="dialog" className="modal-backdrop">
                 <button>close</button>
