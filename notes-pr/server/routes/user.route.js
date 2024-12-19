@@ -4,8 +4,9 @@ const verifyToken = require("../utils/verifyToken");
 const router = express.Router();
 
 // user routes
-router.get("/", verifyToken, getUserNotes);
 router.post("/user-data", userData);
-router.delete("");
-router.put("");
+router.get("/all-notes", verifyToken, getUserNotes);
+router.delete("/note-delete/:id", verifyToken);
+router.put("/note-update/:id", verifyToken);
+
 module.exports = router;
