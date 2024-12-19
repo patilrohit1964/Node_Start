@@ -12,8 +12,10 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 connectDB();
 
 const userRoutes = require("./routes/user.route");
+const noteRoutes = require("./routes/note.route");
 
 app.use("/api/user", userRoutes);
+app.use("/api/note", noteRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -19,10 +19,3 @@ exports.userData = async (req, res) => {
   sendToken(res, user, `Welcome ${user?.name}`);
 };
 
-exports.getUserNotes = async (req, res) => {
-  const user = await User.findById(req.id);
-  res.status(200).json({
-    success: true,
-    user,
-  });
-};
