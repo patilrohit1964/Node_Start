@@ -40,7 +40,13 @@ exports.getUserNotesById = async (req, res) => {
 
 // add new user note in their db
 exports.addUserNotes = async (req, res) => {
-  const note = await Note.create(req.body);
+  const { title, description, noteImage, userId } = req.body;
+  const note = await Note.create({
+    title,
+    description,
+    noteImage,
+    userId: req?.id,
+  });
   res.status(200).json({
     success: true,
     note,
