@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get("/getBooks", getBooks);
 router.get("/getBookById/:id", getBookWithId);
-router.post("/addBook", addBook);
+router.post("/addBook", addBook);   
 router.put("/updateBook/:id", updateBook);
 router.delete("/deleteBook/:id", deleteBook);
 
