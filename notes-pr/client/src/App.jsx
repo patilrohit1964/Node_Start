@@ -15,6 +15,7 @@ const routers = createBrowserRouter([
   }
 ])
 function App() {
+  toast.success('Hello World')
   return (
     <div>
       <Navbar />
@@ -28,7 +29,6 @@ function App() {
 export default App
 
 
-import { Button } from "@/components/ui/button"
 import {
   DialogActionTrigger,
   DialogBody,
@@ -39,7 +39,8 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "./components/ui/dialog"
+import { toast } from 'react-toastify'
 
 const Demo = () => {
   return (
