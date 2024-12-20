@@ -1,19 +1,31 @@
 import { Alert, Button, Spinner } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRegisterUserMutation } from "../features/api/userApi";
 export default function SignUp() {
     const [name, setname] = useState("");
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const navigate = useNavigate();
 
+    const [registerUser, { isLoading, error, isError, isSuccess, data }] = useRegisterUserMutation()
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        //logic
-
+        registerUser({ name, email, password });
     };
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(data?.message || "User registered successfully")
+            navigate("/");
+        }
+        if (error) {
+            toast.error(error.data.message || "Something went wrong")
+        }
+    }, [isSuccess, isError, error])
 
     return (
         <section style={{ backgroundColor: "#eee", minHeight: "100vh" }}>
@@ -60,8 +72,8 @@ export default function SignUp() {
                                             </div>
 
                                             <div className="d-grid">
-                                                <button type="submit" className="btn btn-primary">
-                                                    Register
+                                                <button type="submit" className="btn btn-primary" disabled={isLoading}>
+                                                    {isLoading ? <Spinner animation="border" size="sm" /> : "Register"}
                                                 </button>
                                             </div>
 
