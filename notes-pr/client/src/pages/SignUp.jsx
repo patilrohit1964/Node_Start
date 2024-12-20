@@ -12,9 +12,9 @@ export default function SignUp() {
 
     const [registerUser, { isLoading, error, isError, isSuccess, data }] = useRegisterUserMutation()
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        registerUser({ name, email, password });
+        await registerUser({ name, email, password });
     };
 
     useEffect(() => {

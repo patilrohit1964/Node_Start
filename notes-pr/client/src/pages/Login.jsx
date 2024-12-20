@@ -1,14 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useLoginUserMutation } from "../features/api/userApi";
 export default function Login() {
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const navigate = useNavigate();
-    const handlesubmit = (e) => {
 
+    const [loginUser, { isLoading, isSuccess, isError, error, data }] = useLoginUserMutation()
+    console.log(data, "data of api login")
+    const handlesubmit = async (e) => {
+        e.preventDefault();
+        await loginUser({ email, password });
     };
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(data?.message || "User logged in successfully");
+            navigate("/");
+        }
+        if (isError) {
+            toast.error(error?.data?.message || "Something went wrong");
+        }
+    }, [isSuccess, data, navigate, isError, error])
     return (
         <div
             className="h-screen d-flex align-items-center justify-content-center"
