@@ -12,9 +12,9 @@ function NavbarNav() {
             <Container>
                 <Navbar.Brand>Navbar</Navbar.Brand>
                 <Nav className="m-auto">
-                    <NavLink className="text-decoration-none text-white me-3" to="/home">Home</NavLink>
-                    <NavLink className="text-decoration-none text-white me-3" to="#features">Features</NavLink>
-                    <NavLink className="text-decoration-none text-white me-3" to="#pricing">Pricing</NavLink>
+                    <NavLink className="text-decoration-none text-white me-3" to="/">Home</NavLink>
+                    <NavLink className="text-decoration-none text-white me-3" to="/create-note">Add Note</NavLink>
+                    <NavLink className="text-decoration-none text-white me-3" to="/show-note">See Notes</NavLink>
                 </Nav>
             </Container>
             {

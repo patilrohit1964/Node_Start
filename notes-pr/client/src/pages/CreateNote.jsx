@@ -1,19 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
+import { useNavigate } from 'react-router-dom';
+import { useCreateNoteMutation } from '../features/api/noteApi';
+import { toast } from 'react-toastify';
 const CreateNote = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [noteImage, setNoteImage] = useState(null);
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+    const [createNote, { isLoading, isError, error, data, isSuccess }] = useCreateNoteMutation()
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted', title, description, noteImage);
+        await createNote({ title, description, noteImage });
+        setTitle("");
+        setDescription("");
+        setNoteImage(null);
     }
 
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Note created successfully")
+        }
+        if (isError) {
+            toast.error(error?.data?.message || "Something went wrong")
+        }
+    }, [isSuccess, navigate, isError, error])
     return (
         <div className='flex justify-center items-center h-screen overflow-hidden'>
             <Form onSubmit={handleSubmit} className='border border-gray-300 rounded-lg p-5'>

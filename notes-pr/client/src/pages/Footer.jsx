@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 
 const Footer = () => {
     return (
-        <footer className="footer footer-center bg-neutral text-white rounded p-10 overflow-hidden mt-5 fixed bottom-0">
+        <footer className="footer footer-center bg-neutral text-white rounded p-10 overflow-hidden mt-5">
             <nav className="grid grid-flow-col gap-4">
                 <a className="link link-hover">About us</a>
                 <a className="link link-hover">Contact</a>

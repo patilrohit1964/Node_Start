@@ -24,6 +24,7 @@ export default function Login() {
             toast.error(error?.data?.message || "Something went wrong");
         }
     }, [isSuccess, data, navigate, isError, error])
+    console.log(data, "data of api login")
     return (
         <div
             className="h-screen d-flex align-items-center justify-content-center"

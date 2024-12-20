@@ -15,6 +15,7 @@ const sendToken = (res, user, message) => {
     .json({
       success: true,
       message,
+      user,
     });
 };
 
