@@ -1,6 +1,6 @@
 const User = require("../models/user.model");
 const sendToken = require("../utils/sendToken");
-
+const bcrypt = require("bcryptjs");
 exports.userData = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -10,12 +10,30 @@ exports.userData = async (req, res) => {
       message: "All fields are required",
     });
   }
-
+  const hashedPassword = await bcrypt.hash(password, 10);
   const user = await User.create({
     email,
-    password,
+    password: hashedPassword,
     name,
   });
   sendToken(res, user, `Welcome ${user?.name}`);
 };
 
+exports.loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(400).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+  const isMatch = user.comparePassword(password);
+  if (!isMatch) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid password",
+    });
+  }
+  sendToken(res, user, `Welcome ${user?.name}`);
+};
