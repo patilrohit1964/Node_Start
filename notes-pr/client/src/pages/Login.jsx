@@ -9,10 +9,11 @@ export default function Login() {
     const navigate = useNavigate();
 
     const [loginUser, { isLoading, isSuccess, isError, error, data }] = useLoginUserMutation()
-    console.log(data, "data of api login")
+    
+
     const handlesubmit = async (e) => {
         e.preventDefault();
-        await loginUser({ email, password });
+        const lg = await loginUser({ email, password });
     };
 
     useEffect(() => {
@@ -24,7 +25,22 @@ export default function Login() {
             toast.error(error?.data?.message || "Something went wrong");
         }
     }, [isSuccess, data, navigate, isError, error])
-    console.log(data, "data of api login")
+
+    useEffect(() => {
+        if (data) {
+            console.log('All Cookies:', document.cookie);
+            
+            const getCookie = (name) => {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            };
+            
+            const token = getCookie('token');
+            console.log('Token Cookie:', token);
+        }
+    }, [data]);
+  
     return (
         <div
             className="h-screen d-flex align-items-center justify-content-center"

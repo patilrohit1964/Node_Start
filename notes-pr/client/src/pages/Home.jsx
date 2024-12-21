@@ -1,6 +1,15 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import Cookies from 'js-cookie'
+import { useCookies } from 'react-cookie'
 
 const Home = () => {
+
+    const { user, isAuthenticated } = useSelector(state => state.authReducer);
+    const [cookie] = useCookies(["token"])
+    console.log(user, isAuthenticated, "user of home");
+    console.log(Cookies.get("token"), "token of home");
+    console.log(cookie, "cookie of home");
     return (
         <div className="py-md-32 position-relative mt-5 overflow-hidden">
             <div className="container-lg max-w-screen-xl">
