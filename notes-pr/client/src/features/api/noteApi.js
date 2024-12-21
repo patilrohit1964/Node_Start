@@ -16,13 +16,24 @@ const noteApi = createApi({
         body: noteData,
       }),
     }),
-    getNotes:builder.query({
-        query:()=>({
-            url:"/"
-        })
-    })
+    getNotes: builder.query({
+      query: (userId) => ({
+        url: `/all-notes/${userId}`,
+        method: "GET",
+      }),
+    }),
+    getNoteDetails: builder.query({
+      query: (noteId) => ({
+        url: `/get-note/${noteId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useCreateNoteMutation } = noteApi;
+export const {
+  useCreateNoteMutation,
+  useGetNotesQuery,
+  useGetNoteDetailsQuery,
+} = noteApi;
 export default noteApi;

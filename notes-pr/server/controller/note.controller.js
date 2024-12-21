@@ -4,9 +4,9 @@ const User = require("../models/user.model");
 // get user all notes
 exports.getUserNotes = async (req, res) => {
   try {
-    const user = await Note.findById(req.id);
+    const notes = await Note.find({ userId: req.id });
 
-    if (!user) {
+    if (!notes) {
       return res.status(404).json({
         success: false,
         message: "Notes not found",
@@ -15,7 +15,7 @@ exports.getUserNotes = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      user,
+      notes,
       message: "Notes fetched successfully",
     });
   } catch (error) {
@@ -98,7 +98,7 @@ exports.deleteUserNotes = async (req, res) => {
 // user notes with id
 exports.getUserNotesById = async (req, res) => {
   try {
-    const note = await Note.findById(req.params.id);
+    const note = await Note.findById(req.params.noteId);
 
     if (!note) {
       return res.status(404).json({

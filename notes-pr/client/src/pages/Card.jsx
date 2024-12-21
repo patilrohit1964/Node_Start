@@ -1,19 +1,26 @@
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import CardBs from 'react-bootstrap/Card';
+import { NavLink } from 'react-router-dom';
 
-function Card({ cardData }) {
+function Card({ note }) {
+
+
     return (
-        <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="holder.js/100px180" />
-            <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
-                </Card.Text>
-                <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-        </Card>
+        <>
+            < CardBs style={{ width: '18rem' }} className='mb-3'>
+                <CardBs.Img variant="top" src={note?.noteImage} />
+                <CardBs.Body>
+                    <CardBs.Title>{note?.title}</CardBs.Title>
+                    <CardBs.Text>
+                        {note?.description}
+                    </CardBs.Text>
+                    <NavLink to={`/note-details/${note?._id}`} className='block m-auto'>
+                        <Button variant="primary">See Note Details</Button>
+                    </NavLink>
+                </CardBs.Body>
+            </CardBs >
+        </>
+
     );
 }
 
