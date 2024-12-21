@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Add these styles for the toggle switch */
+.toggle-checkbox {
+  right: 0;
+  z-index: 1;
+  transition: all 0.3s;
+}
+
+.toggle-checkbox:checked {
+  right: 4px;
+  border-color: #9333ea;
+}
+
+.toggle-label {
+  width: 40px;
+  transition: background-color 0.3s;
+}

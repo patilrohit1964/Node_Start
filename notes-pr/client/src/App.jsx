@@ -8,6 +8,8 @@ import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import CreateNote from './pages/CreateNote'
 import ShowNote from './pages/ShowNote'
+import PrivateRoute from './components/PrivateRoute'
+import UserEdit from './pages/UserEdit'
 
 
 function App() {
@@ -15,11 +17,14 @@ function App() {
     <div>
       <NavbarNav />
       <Routes>
-        <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<SignUp />} />
-        <Route path='/create-note' element={<CreateNote />} />
-        <Route path='/show-note' element={<ShowNote />} />
+        <Route path='/edit-profile' element={<UserEdit />} />
+        <Route element={<PrivateRoute />}>
+          <Route path='/' element={<Home />} />
+          <Route path='/create-note' element={<CreateNote />} />
+          <Route path='/show-note' element={<ShowNote />} />
+        </Route>
       </Routes>
       <Footer />
     </div>

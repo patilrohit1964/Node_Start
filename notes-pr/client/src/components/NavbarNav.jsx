@@ -6,8 +6,9 @@ import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useLogOutUserMutation } from '../features/api/userApi';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import UserEdit from '../pages/UserEdit';
 
 
 function NavbarNav() {
@@ -25,6 +26,8 @@ function NavbarNav() {
             toast.success(data?.message || "user Logut Successfully");
         }
     }, [isSuccess])
+
+    const [showProfileEdit, setShowProfileEdit] = useState(false);
 
     return (
         <Navbar bg="dark" data-bs-theme="dark">
@@ -97,6 +100,12 @@ function NavbarNav() {
                         </div>
                     )
             }
+            {showProfileEdit && (
+                <UserEdit onClose={() => setShowProfileEdit(false)} />
+            )}
+            <button onClick={() => setShowProfileEdit(true)}>
+                Edit Profile
+            </button>
         </Navbar>
     );
 }
