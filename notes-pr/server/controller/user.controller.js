@@ -16,6 +16,7 @@ exports.userData = async (req, res) => {
     password: hashedPassword,
     name,
   });
+
   sendToken(res, user, `Welcome ${user?.name}`);
 };
 
@@ -36,4 +37,18 @@ exports.loginUser = async (req, res) => {
     });
   }
   sendToken(res, user, `Welcome ${user?.name}`);
+};
+
+exports.logOutUser = async (req, res) => {
+  try {
+    return res.status(200).clearCookie("token").json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
 };

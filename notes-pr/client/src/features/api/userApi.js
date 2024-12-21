@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { userLoggedIn } from "../authSlice";
+import { userLoggedIn, userLoggedOut } from "../authSlice";
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -9,7 +9,7 @@ const userApi = createApi({
     baseUrl: BASE_URL,
     credentials: "include",
     prepareHeaders: (headers) => {
-      headers.set('Accept', 'application/json');
+      headers.set("Accept", "application/json");
       return headers;
     },
   }),
@@ -43,9 +43,25 @@ const userApi = createApi({
         }
       },
     }),
+    logOutUser: builder.mutation({
+      query: () => ({
+        url: "/api/user/logout",
+        method: "GET",
+      }),
+      async onQueryStarted(args, { queryFulfilled, dispatch }) {
+        try {
+          await queryFulfilled;
+          dispatch(userLoggedOut());
+        } catch (error) {}
+      },
+    }),
   }),
 });
 
-export const { useRegisterUserMutation, useLoginUserMutation } = userApi;
+export const {
+  useRegisterUserMutation,
+  useLoginUserMutation,
+  useLogOutUserMutation,
+} = userApi;
 
 export default userApi;

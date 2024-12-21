@@ -14,7 +14,8 @@ export default function SignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await registerUser({ name, email, password });
+        const lg = await registerUser({ name, email, password });
+        console.log(lg, "lg of signup");
     };
 
     useEffect(() => {
@@ -23,7 +24,7 @@ export default function SignUp() {
             navigate("/");
         }
         if (error) {
-            toast.error(error.data.message || "Something went wrong")
+            toast.error(error?.data?.message || "Something went wrong")
         }
     }, [isSuccess, isError, error])
 

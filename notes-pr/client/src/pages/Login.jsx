@@ -13,7 +13,7 @@ export default function Login() {
 
     const handlesubmit = async (e) => {
         e.preventDefault();
-        const lg = await loginUser({ email, password });
+        await loginUser({ email, password });
     };
 
     useEffect(() => {
@@ -25,21 +25,6 @@ export default function Login() {
             toast.error(error?.data?.message || "Something went wrong");
         }
     }, [isSuccess, data, navigate, isError, error])
-
-    useEffect(() => {
-        if (data) {
-            console.log('All Cookies:', document.cookie);
-            
-            const getCookie = (name) => {
-                const value = `; ${document.cookie}`;
-                const parts = value.split(`; ${name}=`);
-                if (parts.length === 2) return parts.pop().split(';').shift();
-            };
-            
-            const token = getCookie('token');
-            console.log('Token Cookie:', token);
-        }
-    }, [data]);
   
     return (
         <div

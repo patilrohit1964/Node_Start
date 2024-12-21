@@ -2,11 +2,30 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { useLogOutUserMutation } from '../features/api/userApi';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
-const user = false
+
 function NavbarNav() {
+
+    const { user, isAuthenticated, token } = useSelector(state => state.authReducer);
+    const [logOutUser, { data, isSuccess }] = useLogOutUserMutation()
+    const navigate = useNavigate()
+    const handleLogout = async () => {
+        await logOutUser();
+        navigate("/login");
+    }
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(data?.message || "user Logut Successfully");
+        }
+    }, [isSuccess])
+
     return (
         <Navbar bg="dark" data-bs-theme="dark">
             <Container>
@@ -39,7 +58,7 @@ function NavbarNav() {
                                         <span className="sr-only">Open user menu</span>
                                         <img
                                             alt="porfile not found"
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5bpdR0qrbbZH5qTcbXea_Ebdr0iqPuE6y1A&s"
+                                            src={user?.profilePic}
                                             className="size-8 rounded-full border border-white"
                                         />
                                     </MenuButton>
@@ -53,7 +72,7 @@ function NavbarNav() {
                                             href="#"
                                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                                         >
-                                            Your Profile
+                                            Your Profile: {user?.name}
                                         </a>
                                     </MenuItem>
                                     <MenuItem>
@@ -64,7 +83,7 @@ function NavbarNav() {
                                             Settings
                                         </a>
                                     </MenuItem>
-                                    <MenuItem>
+                                    <MenuItem onClick={handleLogout}>
                                         <a
                                             href="#"
                                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"

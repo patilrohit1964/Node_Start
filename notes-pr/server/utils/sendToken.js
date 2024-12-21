@@ -14,11 +14,16 @@ const sendToken = (res, user, message) => {
     sameSite: "none",
     secure: true,
   };
+
+  // Convert user document to a plain object and remove password
+  const userWithoutPassword = user.toObject();
+  delete userWithoutPassword.password;
+
   return res.status(200).cookie("token", token, options).json({
     success: true,
     message,
-    user,
     token,
+    user: userWithoutPassword,
   });
 };
 
