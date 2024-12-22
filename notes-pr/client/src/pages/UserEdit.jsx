@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const UserEdit = ({ onClose }) => {
+
     const { user } = useSelector((state) => state.authReducer);
     const [name, setName] = useState(user?.name || '');
     const [profilePic, setProfilePic] = useState(user?.profilePic || '');

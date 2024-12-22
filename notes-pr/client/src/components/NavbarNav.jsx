@@ -36,7 +36,7 @@ function NavbarNav() {
                 <Nav className="m-auto">
                     <NavLink className="text-decoration-none text-white me-3" to="/">Home</NavLink>
                     <NavLink className="text-decoration-none text-white me-3" to="/create-note">Add Note</NavLink>
-                    <NavLink className="text-decoration-none text-white me-3" to="/show-note">See Notes</NavLink>
+                    <NavLink className="text-decoration-none text-white me-3" to="/show-notes">See Notes</NavLink>
                 </Nav>
             </Container>
             {

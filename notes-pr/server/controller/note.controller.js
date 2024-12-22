@@ -138,7 +138,8 @@ exports.addUserNotes = async (req, res) => {
       noteImage: req?.file?.originalname,
       userId: req?.id,
     });
-
+   
+    console.log(req.file);
     res.status(201).json({
       success: true,
       note,

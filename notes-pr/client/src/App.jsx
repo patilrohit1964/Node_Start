@@ -23,12 +23,12 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path='/' element={<Home />} />
           <Route path='/create-note' element={<CreateNote />} />
-          <Route path='/show-note' element={<ShowNote />} />
+          <Route path='/show-notes' element={<ShowNote />} />
           <Route path='/edit-profile' element={<UserEdit />} />
           <Route path='/note-details/:noteId' element={<NoteDetails />} />
         </Route>
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }

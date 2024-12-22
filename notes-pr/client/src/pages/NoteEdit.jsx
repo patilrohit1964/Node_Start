@@ -9,7 +9,7 @@ const NoteEdit = ({ onClose, noteData }) => {
     const [noteImage, setNoteImage] = useState(noteData?.noteImage || '');
     const [showPreview, setShowPreview] = useState(false);
     const [isDarkTheme, setIsDarkTheme] = useState(false);
-    console.log(isDarkTheme)
+
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -27,7 +27,7 @@ const NoteEdit = ({ onClose, noteData }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className={`${isDarkTheme ? 'bg-black' : null} bg-white rounded-lg p-6 w-[400px] max-w-[95%]`}>
+            <div className={`bg-white rounded-lg p-6 w-[400px] max-w-[95%]`}>
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-semibold">Note Details</h2>
                     <button
@@ -137,4 +137,7 @@ const NoteEdit = ({ onClose, noteData }) => {
     );
 };
 
-export default NoteEdit; 
+export default NoteEdit;
+
+
+

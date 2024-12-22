@@ -13,6 +13,20 @@ export const CardSkeleton = () => {
     )
 }
 
+export const CardsSkeleton = () => {
+    return (
+        <div>
+            <div className="flex flex-col gap-4 w-52 justify-around mb-2">
+                <div className="skeleton h-32 w-full"></div>
+                <div className="skeleton h-4 w-28"></div>
+                <div className="skeleton h-4 w-full"></div>
+                <div className="skeleton h-4 w-full"></div>
+            </div>
+        </div>
+    )
+}
+
+
 export const ProfileSkeleton = () => {
     return (
         <div className="flex w-52 flex-col gap-4">

@@ -8,7 +8,7 @@ function Card({ note }) {
     return (
         <>
             < CardBs style={{ width: '18rem' }} className='mb-3'>
-                <CardBs.Img variant="top" src={note?.noteImage} />
+                <CardBs.Img variant="top" src={note?.noteImage || `http://localhost:8000/${note?.noteImage}`} />
                 <CardBs.Body>
                     <CardBs.Title>{note?.title}</CardBs.Title>
                     <CardBs.Text>

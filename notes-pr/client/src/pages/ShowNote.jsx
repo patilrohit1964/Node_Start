@@ -3,6 +3,7 @@ import { useGetNotesQuery } from '../features/api/noteApi'
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import Card from './Card';
+import { CardSkeleton, CardsSkeleton } from '../components/CardSkeleton';
 
 const ShowNote = () => {
 
@@ -22,9 +23,13 @@ const ShowNote = () => {
     return (
         <div className='h-screen'>
             <div className='flex justify-around items-center flex-wrap gap-4 mt-5'>
-                {data?.notes.map(el => (
-                    <Card note={el} key={el._id} />
+                {isLoading && [1, 2, 3, 4, 5, 6].map((_, index) => (
+                    <CardsSkeleton key={index} />
                 ))}
+
+                {data?.notes?.length > 0 ? data?.notes.map(el => (
+                    <Card note={el} key={el._id} />
+                )) : <div className='text-center text-gray-500 mt-10'>No notes found</div>}
             </div>
         </div>
     )

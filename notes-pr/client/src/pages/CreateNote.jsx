@@ -8,6 +8,7 @@ import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
 import { useCreateNoteMutation } from '../features/api/noteApi';
 import { toast } from 'react-toastify';
+import { Spinner } from 'react-bootstrap';
 const CreateNote = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -17,6 +18,7 @@ const CreateNote = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         await createNote({ title, description, noteImage });
+        console.log(noteImage);
         setTitle("");
         setDescription("");
         setNoteImage(null);
@@ -58,13 +60,14 @@ const CreateNote = () => {
                     </Form.Group>
                     <Form.Group as={Col} md="12" className='mb-4' >
                         <Form.Label>Note Image</Form.Label>
-                        <InputGroup hasValidation>
+                        <InputGroup>
                             <Form.Control
                                 type="file"
                                 placeholder="Note Image"
                                 aria-describedby="inputGroupPrepend"
                                 accept='image/*'
                                 onChange={(e) => setNoteImage(e.target.files[0])}
+                                name="file"
                             />
                         </InputGroup>
                         {noteImage && (
@@ -74,7 +77,9 @@ const CreateNote = () => {
                         )}
                     </Form.Group>
                 </Row>
-                <Button type="submit">Submit form</Button>
+                <Button type="submit">
+                    {isLoading ? <Spinner animation='border' size='sm' /> : "Submit form"}
+                </Button>
             </Form>
         </div>
     )

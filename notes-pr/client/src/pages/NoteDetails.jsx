@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import { useGetNoteDetailsQuery } from '../features/api/noteApi'
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { useDeleteNoteMutation, useGetNoteDetailsQuery } from '../features/api/noteApi'
+import { useNavigate, useParams } from 'react-router-dom';
 import NoteEdit from './NoteEdit';
-import {CardSkeleton} from '../components/CardSkeleton';
+import { CardSkeleton } from '../components/CardSkeleton';
+import { toast } from 'react-toastify';
 
 const NoteDetails = () => {
 
@@ -25,7 +26,7 @@ const NoteDetails = () => {
                     <p>{data?.note?.description}</p>
                     <div className="card-actions justify-end">
                         <button className="btn btn-primary" onClick={() => setShowNoteEdit(true)}>Edit</button>
-                        <button className="btn btn-danger">Delete</button>
+                        <NoteDelete id={data?.note?._id} />
                     </div>
                 </div>
             </div>
@@ -37,3 +38,58 @@ const NoteDetails = () => {
 }
 
 export default NoteDetails
+
+const NoteDelete = ({ id }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [deleteNote, { isLoading, isSuccess, isError }] = useDeleteNoteMutation()
+    const navigate = useNavigate();
+    const handleDelete = async () => {
+        await deleteNote(id)
+        setIsOpen(false);
+    }
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Note deleted successfully");
+            navigate("/show-notes");
+        }
+        if (isError) {
+            toast.error("Something went wrong")
+        }
+    }, [isSuccess, isError])
+    return (
+        <div>
+            <button
+                className="btn btn-danger"
+                onClick={() => setIsOpen(true)}
+            >
+                Delete Note
+            </button>
+
+            {isOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-6 w-[400px] max-w-[95%]">
+                        <h3 className="font-bold text-lg">Delete Note</h3>
+                        <p className="py-4">Are you sure you want to delete this note?</p>
+                        <div className="modal-action flex justify-end gap-3">
+                            <button
+                                className="btn btn-outline-primary"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="btn btn-outline-danger"
+                                onClick={() => {
+                                    // TODO: Add delete logic here
+                                    handleDelete()
+                                }}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
