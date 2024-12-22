@@ -71,28 +71,28 @@ function NavbarNav() {
                                     className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                                 >
                                     <MenuItem>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                                        <div
+                                            onClick={() => setShowProfileEdit(true)}
+                                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none cursor-pointer"
                                         >
                                             Your Profile: {user?.name}
-                                        </a>
+                                        </div>
                                     </MenuItem>
-                                    <MenuItem>
-                                        <a
-                                            href="#"
+                                    {/* <MenuItem>
+                                        <Link
+                                            to="#"
                                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                                         >
                                             Settings
-                                        </a>
-                                    </MenuItem>
+                                        </Link>
+                                    </MenuItem> */}
                                     <MenuItem onClick={handleLogout}>
-                                        <a
-                                            href="#"
+                                        <Link
+                                            to="/login"
                                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                                         >
                                             Sign out
-                                        </a>
+                                        </Link>
                                     </MenuItem>
                                 </MenuItems>
                             </Menu>
@@ -103,9 +103,6 @@ function NavbarNav() {
             {showProfileEdit && (
                 <UserEdit onClose={() => setShowProfileEdit(false)} />
             )}
-            <button onClick={() => setShowProfileEdit(true)}>
-                Edit Profile
-            </button>
         </Navbar>
     );
 }

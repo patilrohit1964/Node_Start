@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
-const UserEdit = ({ onClose }) => {
-    const { user } = useSelector((state) => state.authReducer);
-    const [name, setName] = useState(user?.name || '');
-    const [profilePic, setProfilePic] = useState(user?.profilePic || '');
+const NoteEdit = ({ onClose, noteData }) => {
+
+    const [title, setTitle] = useState(noteData?.title || '');
+    const [description, setDescription] = useState(noteData?.description || '');
+    const [noteImage, setNoteImage] = useState(noteData?.noteImage || '');
     const [showPreview, setShowPreview] = useState(false);
     const [isDarkTheme, setIsDarkTheme] = useState(false);
-
+    console.log(isDarkTheme)
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setProfilePic(file);
+            setNoteImage(file);
             setShowPreview(true);
         }
     };
@@ -26,9 +27,9 @@ const UserEdit = ({ onClose }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-[400px] max-w-[95%]">
+            <div className={`${isDarkTheme ? 'bg-black' : null} bg-white rounded-lg p-6 w-[400px] max-w-[95%]`}>
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-semibold">My profile</h2>
+                    <h2 className="text-xl font-semibold">Note Details</h2>
                     <button
                         onClick={onClose}
                         className="text-gray-500 hover:text-gray-700"
@@ -39,20 +40,20 @@ const UserEdit = ({ onClose }) => {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Profile Image Section */}
-                    <div className="text-sm text-gray-600 mb-2">Profile image</div>
+                    <div className="text-sm text-gray-600 mb-2">Note image</div>
                     <div className="flex items-center gap-4">
                         <div className="w-16 h-16 bg-gray-200 rounded-full overflow-hidden">
                             {!showPreview ? (
                                 <img
-                                    src={user?.profilePic}
+                                    src={noteData?.noteImage}
                                     alt="Profile"
                                     className="w-full h-full object-cover"
                                 />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center">
                                     <img
-                                        src={URL.createObjectURL(profilePic)}
-                                        alt="Profile"
+                                        src={URL.createObjectURL(noteImage)}
+                                        alt="Note Image"
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
@@ -72,24 +73,27 @@ const UserEdit = ({ onClose }) => {
                     {/* Nickname Input */}
                     <div>
                         <label className="block text-sm text-gray-600 mb-1">
-                            Name
+                            Note Title
                         </label>
                         <input
                             type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 bg-white"
                         />
                     </div>
 
-                    {/* User ID Display */}
+
                     <div>
                         <label className="block text-sm text-gray-600 mb-1">
-                            User ID
+                            Note Description
                         </label>
-                        <div className="w-full px-3 py-2 bg-gray-100 rounded-md text-gray-500">
-                            {user?._id || 'user@example.com'}
-                        </div>
+                        <input
+                            type="text"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 bg-white"
+                        />
                     </div>
 
                     {/* Dark Theme Toggle */}
@@ -133,4 +137,4 @@ const UserEdit = ({ onClose }) => {
     );
 };
 
-export default UserEdit; 
+export default NoteEdit; 
