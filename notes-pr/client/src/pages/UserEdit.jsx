@@ -79,7 +79,7 @@ const UserEdit = ({ onClose }) => {
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 bg-white"
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 bg-white text-black"
                         />
                     </div>
 

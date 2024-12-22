@@ -19,3 +19,64 @@
   width: 40px;
   transition: background-color 0.3s;
 }
+
+/* Add to your existing styles */
+.active {
+  @apply text-blue-400 no-underline;
+}
+
+/* Add this to ensure no underlines on links */
+a {
+  text-decoration: none !important;
+}
+
+/* Transition classes for menu */
+.menu-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.menu-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.menu-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.menu-exit-active {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Add these styles for navbar link animations */
+.nav-link {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: #60A5FA; /* Tailwind blue-400 */
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* For active state */
+.nav-link.active::after {
+  width: 100%;
+  background-color: #60A5FA;
+}

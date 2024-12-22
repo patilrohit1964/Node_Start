@@ -123,7 +123,7 @@ exports.getUserNotesById = async (req, res) => {
 // add new user note in their db
 exports.addUserNotes = async (req, res) => {
   try {
-    const { title, description, noteImage, userId } = req.body;
+    const { title, description } = req.body;
 
     if (!title || !description) {
       return res.status(400).json({
@@ -135,11 +135,10 @@ exports.addUserNotes = async (req, res) => {
     const note = await Note.create({
       title,
       description,
-      noteImage: req?.file?.filename,
-      userId: req?.id,
+      noteImage: req.file?.filename,
+      userId: req.id,
     });
-
-    console.log(req.file);
+    console.log(req?.file);
     res.status(201).json({
       success: true,
       note,

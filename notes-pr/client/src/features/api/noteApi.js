@@ -1,38 +1,46 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const BaseUrl = `${import.meta.env.VITE_SERVER_URL}/api/note`;
+const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
-const noteApi = createApi({
+export const noteApi = createApi({
   reducerPath: "noteApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: BaseUrl,
+    baseUrl: BASE_URL,
     credentials: "include",
+    prepareHeaders: (headers) => {
+      headers.set("Accept", "multipart/form-data");
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     createNote: builder.mutation({
-      query: (noteData) => ({
-        url: "/add-note",
+      query: (formData) => ({
+        url: "/api/note/add-note",
         method: "POST",
-        body: noteData,
+        body: formData,
+        // Don't set Content-Type header - let browser set it with boundary
       }),
     }),
     getNotes: builder.query({
       query: (userId) => ({
-        url: `/all-notes/${userId}`,
+        url: `/api/note/all-notes/${userId}`,
         method: "GET",
       }),
+      providesTags: ["Note"],
     }),
     getNoteDetails: builder.query({
       query: (noteId) => ({
-        url: `/get-note/${noteId}`,
+        url: `/api/note/get-note/${noteId}`,
         method: "GET",
       }),
+      providesTags: ["Note"],
     }),
     deleteNote: builder.mutation({
       query: (noteId) => ({
-        url: `/delete-note/${noteId}`,
+        url: `/api/note/delete-note/${noteId}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Note"],
     }),
   }),
 });
@@ -43,4 +51,5 @@ export const {
   useGetNoteDetailsQuery,
   useDeleteNoteMutation,
 } = noteApi;
+
 export default noteApi;
