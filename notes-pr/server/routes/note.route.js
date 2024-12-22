@@ -10,15 +10,10 @@ const verifyToken = require("../middleware/verifyToken");
 const upload = require("../utils/uploadFile");
 const router = express.Router();
 
-router.get("/all-notes/:userId", verifyToken, getUserNotes);
-router.post("/add-note", verifyToken, upload.single("file"), addUserNotes);
-router.put(
-  "/update-note/:noteId",
-  verifyToken,
-  upload.single("file"),
-  updateUserNotes
-);
-router.delete("/delete-note/:noteId", verifyToken, deleteUserNotes);
-router.get("/get-note/:noteId", verifyToken, getUserNotesById);
+router.route("/all-notes/:userId").get(verifyToken, getUserNotes);
+router.route("/add-note").post(verifyToken, upload, addUserNotes);
+router.route("/update-note/:noteId").put(verifyToken, upload, updateUserNotes);
+router.route("/delete-note/:noteId").delete(verifyToken, deleteUserNotes);
+router.route("/get-note/:noteId").get(verifyToken, getUserNotesById);
 
 module.exports = router;
