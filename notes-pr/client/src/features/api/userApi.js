@@ -59,6 +59,20 @@ const userApi = createApi({
         method: "PUT",
         body: userData,
       }),
+      async onQueryStarted(args, { queryFulfilled, dispatch }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            userLoggedIn({
+              user: data.user,
+              token: data.token,
+              isAuthenticated: true,
+            })
+          );
+        } catch (error) {
+          console.error("Update profile error:", error);
+        }
+      },
       invalidatesTags: ["User"],
     }),
   }),

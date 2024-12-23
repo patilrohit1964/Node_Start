@@ -29,7 +29,7 @@ const ShowNote = () => {
 
                 {data?.notes?.length > 0 ? data?.notes.map(el => (
                     <Card note={el} key={el._id} />
-                )) : <div className='text-center text-gray-500 mt-10'>No notes found</div>}
+                )) : <div className='text-center text-gray-500 mt-10 text-2xl'>No notes found</div>}
             </div>
         </div>
     )

@@ -135,10 +135,9 @@ exports.addUserNotes = async (req, res) => {
     const note = await Note.create({
       title,
       description,
-      noteImage: req.file?.filename,
+      noteImage: req.files?.file[0]?.filename,
       userId: req.id,
     });
-    console.log(req?.file);
     res.status(201).json({
       success: true,
       note,

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useUpdateProfileMutation } from '../features/api/userApi';
+import { Spinner } from 'react-bootstrap';
 
 const UserEdit = ({ onClose }) => {
 
@@ -31,6 +32,13 @@ const UserEdit = ({ onClose }) => {
         onClose();
     };
 
+    const getProfileImageUrl = (profilePicPath) => {
+
+        if (profilePicPath.charAt(0) === "h") {
+            return profilePicPath
+        }
+        return `http://localhost:8000/${profilePicPath}`;
+    }
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -52,7 +60,7 @@ const UserEdit = ({ onClose }) => {
                         <div className="w-16 h-16 bg-gray-200 rounded-full overflow-hidden">
                             {!showPreview ? (
                                 <img
-                                    src={user?.profilePic}
+                                    src={getProfileImageUrl(user?.profilePic)}
                                     alt="Profile"
                                     className="w-full h-full object-cover"
                                 />
@@ -132,7 +140,7 @@ const UserEdit = ({ onClose }) => {
                             type="submit"
                             className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
                         >
-                            Save
+                            {isLoading ? <Spinner animation="border" variant="light" size="sm" /> : "Save"}
                         </button>
                     </div>
                 </form>

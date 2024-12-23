@@ -33,6 +33,14 @@ function NavbarNav() {
         setIsOffcanvasOpen(false);
     };
 
+    const getProfileImageUrl = (profilePicPath) => {
+       
+        if (profilePicPath.charAt(0) === "h") {
+            return profilePicPath
+        }
+        return `http://localhost:8000/${profilePicPath}`;
+    }
+
     return (
         <nav className="bg-gray-900 text-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -44,32 +52,29 @@ function NavbarNav() {
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-4">
-                        <NavLink 
-                            className={({ isActive }) => 
-                                `nav-link no-underline hover:text-gray-300 px-3 py-2 rounded-md ${
-                                    isActive ? 'text-blue-400 active' : 'text-white'
+                        <NavLink
+                            className={({ isActive }) =>
+                                `nav-link no-underline hover:text-gray-300 px-3 py-2 rounded-md ${isActive ? 'text-blue-400 active' : 'text-white'
                                 }`
-                            } 
+                            }
                             to="/"
                         >
                             Home
                         </NavLink>
-                        <NavLink 
-                            className={({ isActive }) => 
-                                `nav-link no-underline hover:text-gray-300 px-3 py-2 rounded-md ${
-                                    isActive ? 'text-blue-400 active' : 'text-white'
+                        <NavLink
+                            className={({ isActive }) =>
+                                `nav-link no-underline hover:text-gray-300 px-3 py-2 rounded-md ${isActive ? 'text-blue-400 active' : 'text-white'
                                 }`
-                            } 
+                            }
                             to="/create-note"
                         >
                             Add Note
                         </NavLink>
-                        <NavLink 
-                            className={({ isActive }) => 
-                                `nav-link no-underline hover:text-gray-300 px-3 py-2 rounded-md ${
-                                    isActive ? 'text-blue-400 active' : 'text-white'
+                        <NavLink
+                            className={({ isActive }) =>
+                                `nav-link no-underline hover:text-gray-300 px-3 py-2 rounded-md ${isActive ? 'text-blue-400 active' : 'text-white'
                                 }`
-                            } 
+                            }
                             to="/show-notes"
                         >
                             See Notes
@@ -102,7 +107,7 @@ function NavbarNav() {
                                 <MenuButton className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white">
                                     <img
                                         alt="profile"
-                                        src={user?.profilePic}
+                                        src={getProfileImageUrl(user?.profilePic)}
                                         className="h-8 w-8 rounded-full border border-white"
                                     />
                                 </MenuButton>
@@ -146,10 +151,9 @@ function NavbarNav() {
                         </div>
 
                         <div className="flex flex-col space-y-4">
-                            <NavLink 
-                                className={({ isActive }) => 
-                                    `nav-link no-underline text-white hover:text-gray-300 ${
-                                        isActive ? 'text-blue-400 active' : ''
+                            <NavLink
+                                className={({ isActive }) =>
+                                    `nav-link no-underline text-white hover:text-gray-300 ${isActive ? 'text-blue-400 active' : ''
                                     }`
                                 }
                                 to="/"
@@ -157,10 +161,9 @@ function NavbarNav() {
                             >
                                 Home
                             </NavLink>
-                            <NavLink 
-                                className={({ isActive }) => 
-                                    `nav-link no-underline text-white hover:text-gray-300 ${
-                                        isActive ? 'text-blue-400 active' : ''
+                            <NavLink
+                                className={({ isActive }) =>
+                                    `nav-link no-underline text-white hover:text-gray-300 ${isActive ? 'text-blue-400 active' : ''
                                     }`
                                 }
                                 to="/create-note"
@@ -168,10 +171,9 @@ function NavbarNav() {
                             >
                                 Add Note
                             </NavLink>
-                            <NavLink 
-                                className={({ isActive }) => 
-                                    `nav-link no-underline text-white hover:text-gray-300 ${
-                                        isActive ? 'text-blue-400 active' : ''
+                            <NavLink
+                                className={({ isActive }) =>
+                                    `nav-link no-underline text-white hover:text-gray-300 ${isActive ? 'text-blue-400 active' : ''
                                     }`
                                 }
                                 to="/show-notes"
@@ -184,7 +186,7 @@ function NavbarNav() {
                                 <div className="pt-4 border-t border-gray-700">
                                     <div className="flex items-center space-x-3 mb-4">
                                         <img
-                                            src={user?.profilePic}
+                                            src={getProfileImageUrl(user?.profilePic)}
                                             alt="profile"
                                             className="h-8 w-8 rounded-full border border-white"
                                         />
@@ -211,18 +213,18 @@ function NavbarNav() {
                                 </div>
                             ) : (
                                 <div className="pt-4 border-t border-gray-700 space-y-4">
-                                    <Link 
-                                        to="/login" 
-                                        className="block w-full " 
+                                    <Link
+                                        to="/login"
+                                        className="block w-full "
                                         onClick={closeOffcanvas}
                                     >
                                         <Button variant="outline-light" className="w-full">
                                             Login
                                         </Button>
                                     </Link>
-                                    <Link 
-                                        to="/register" 
-                                        className="block w-full" 
+                                    <Link
+                                        to="/register"
+                                        className="block w-full"
                                         onClick={closeOffcanvas}
                                     >
                                         <Button variant="outline-light" className="w-full">
