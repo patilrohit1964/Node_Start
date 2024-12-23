@@ -14,8 +14,7 @@ export default function SignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const lg = await registerUser({ name, email, password });
-        console.log(lg, "lg of signup");
+        await registerUser({ name, email, password });
     };
 
     useEffect(() => {

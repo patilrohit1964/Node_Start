@@ -1,29 +1,25 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { userLoggedIn, userLoggedOut } from "../authSlice";
 
-const BASE_URL = import.meta.env.VITE_SERVER_URL;
+const BASE_URL = `${import.meta.env.VITE_SERVER_URL}/api/user`;
 
 const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
     credentials: "include",
-    prepareHeaders: (headers) => {
-      headers.set("Accept", "application/json");
-      return headers;
-    },
   }),
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (userData) => ({
-        url: "/api/user/register",
+        url: "/register",
         method: "post",
         body: userData,
       }),
     }),
     loginUser: builder.mutation({
       query: (userData) => ({
-        url: "/api/user/login",
+        url: "/login",
         method: "POST",
         body: userData,
       }),
@@ -31,6 +27,7 @@ const userApi = createApi({
         try {
           const { data } = await queryFulfilled;
           // Store the entire auth data including token
+
           dispatch(
             userLoggedIn({
               user: data.user,
@@ -45,7 +42,7 @@ const userApi = createApi({
     }),
     logOutUser: builder.mutation({
       query: () => ({
-        url: "/api/user/logout",
+        url: "/logout",
         method: "GET",
       }),
       async onQueryStarted(args, { queryFulfilled, dispatch }) {
@@ -55,6 +52,13 @@ const userApi = createApi({
         } catch (error) {}
       },
     }),
+    updateProfile: builder.mutation({
+      query: (userData) => ({
+        url: "/update-profile",
+        method: "PUT",
+        body: userData,
+      }),
+    }),
   }),
 });
 
@@ -62,6 +66,7 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLogOutUserMutation,
+  useUpdateProfileMutation,
 } = userApi;
 
 export default userApi;

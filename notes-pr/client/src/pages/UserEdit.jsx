@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { useUpdateProfileMutation } from '../features/api/userApi';
 
 const UserEdit = ({ onClose }) => {
 
@@ -10,6 +11,7 @@ const UserEdit = ({ onClose }) => {
     const [showPreview, setShowPreview] = useState(false);
     const [isDarkTheme, setIsDarkTheme] = useState(false);
 
+    const [updateProfile, { isLoading, data, isError }] = useUpdateProfileMutation();
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -21,7 +23,10 @@ const UserEdit = ({ onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // TODO: Implement update profile logic
-        toast.success('Profile updated successfully');
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("file", profilePic);
+        await updateProfile(formData);
         onClose();
     };
 

@@ -7,10 +7,6 @@ export const noteApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
     credentials: "include",
-    prepareHeaders: (headers) => {
-      headers.set("Accept", "multipart/form-data");
-      return headers;
-    },
   }),
   endpoints: (builder) => ({
     createNote: builder.mutation({
