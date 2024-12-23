@@ -5,6 +5,7 @@ const BASE_URL = `${import.meta.env.VITE_SERVER_URL}/api/user`;
 
 const userApi = createApi({
   reducerPath: "userApi",
+  tagTypes: ["User"],
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
     credentials: "include",
@@ -58,6 +59,7 @@ const userApi = createApi({
         method: "PUT",
         body: userData,
       }),
+      invalidatesTags: ["User"],
     }),
   }),
 });

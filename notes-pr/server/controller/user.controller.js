@@ -56,18 +56,20 @@ exports.logOutUser = async (req, res) => {
 exports.updateProfile = async (req, res) => {
   try {
     const { name } = req.body;
-   
-    console.log(req.files.file[0].filename,name);
-    // const user = await User.findByIdAndUpdate(req.id, { name, email });
-    // res.status(200).json({
-    //   success: true,
-    //   user,
-    // });
-    res.send("ok");
+
+    
+    const user = await User.findByIdAndUpdate(req.id, {
+      name,
+      profilePic: req?.files?.file[0]?.filename,
+    });
+    res.status(200).json({
+      success: true,
+      user,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Internal server error",
     });
   }
-}; 
+};
