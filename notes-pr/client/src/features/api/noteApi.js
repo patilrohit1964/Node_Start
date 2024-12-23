@@ -4,6 +4,7 @@ const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
 export const noteApi = createApi({
   reducerPath: "noteApi",
+  tagTypes: ["Note"],
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
     credentials: "include",

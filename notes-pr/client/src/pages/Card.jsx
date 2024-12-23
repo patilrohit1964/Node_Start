@@ -13,9 +13,11 @@ function Card({ note }) {
     return (
         <>
             < CardBs style={{ width: '18rem' }} className='mb-3'>
-                <CardBs.Img variant="top" src={getNoteImages(note?.noteImage)} />
+                <div className='w-[286px] h-[170px]'>
+                    <CardBs.Img variant="top" src={getNoteImages(note?.noteImage)} className='w-full h-full object-cover' />
+                </div>
                 <CardBs.Body>
-                    <span className='text-center text-sm'>{moment(note?.createdAt).format("DD-MM-YYYY")}</span>
+                    <span className='text-center text-sm mb-3'>created at {moment(note?.createdAt).format("DD-MM-YYYY")}</span>
                     <CardBs.Title>{note?.title}</CardBs.Title>
                     <CardBs.Text>
                         {note?.description}

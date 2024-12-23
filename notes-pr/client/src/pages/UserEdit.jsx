@@ -27,7 +27,7 @@ const UserEdit = ({ onClose }) => {
         const formData = new FormData();
         formData.append("name", name);
         formData.append("file", profilePic);
-        await updateProfile(formData);
+        await updateProfile(formData).unwrap();
         toast.success("Profile updated successfully");
         onClose();
     };
