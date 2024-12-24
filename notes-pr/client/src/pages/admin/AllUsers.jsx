@@ -30,9 +30,9 @@ const AllUsers = () => {
             Cell: ({ value, row }) => (
                 <div className="flex items-center gap-3">
                     <div className="avatar w-8 h-8">
-                        <img className="w-full h-full rounded-full bg-blue-100 flex items-center justify-center" src={row?.original?.profilePic} alt='profile-pic' />
+                        <img className="w-full h-full rounded-full bg-blue-100" src={row?.original?.profilePic} alt='profile-pic' />
                     </div>
-                    <span className="font-medium">{value}</span>
+                    <span className="font-medium theme-text">{value}</span>
                 </div>
             )
         },
@@ -47,7 +47,7 @@ const AllUsers = () => {
             Header: "Created At",
             accessor: (row) => new Date(row.createdAt).toLocaleDateString(),
             Cell: ({ value }) => (
-                <span className="text-sm text-gray-500">{value}</span>
+                <span className="text-sm theme-text-secondary">{value}</span>
             )
         },
         {
@@ -55,8 +55,8 @@ const AllUsers = () => {
             accessor: "role",
             Cell: ({ value }) => (
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${value === 'admin'
-                    ? 'bg-purple-100 text-purple-800'
-                    : 'bg-gray-100 text-gray-800'
+                    ? 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200'
+                    : 'bg-gray-100 dark:bg-gray-700 theme-text'
                     }`}>
                     {value}
                 </span>
@@ -70,7 +70,7 @@ const AllUsers = () => {
                     <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
-                        className="btn btn-sm btn-ghost text-blue-600"
+                        className="p-2 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400"
                         onClick={() => {
                             setSelectedUser(row.original);
                             setIsEditModalOpen(true);
@@ -81,7 +81,7 @@ const AllUsers = () => {
                     <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
-                        className="btn btn-sm btn-ghost text-red-600"
+                        className="p-2 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400"
                         onClick={() => {
                             setSelectedUser(row.original);
                             setIsDeleteModalOpen(true);
@@ -125,11 +125,11 @@ const AllUsers = () => {
             className="overflow-x-auto p-4"
         >
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-semibold text-gray-800">All Users</h2>
+                <h2 className="text-2xl font-semibold theme-text dark:text-black">All Users</h2>
                 <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="btn btn-primary"
+                    className="px-4 py-2 theme-button rounded-md"
                     onClick={() => setIsAddModalOpen(true)}
                 >
                     Add New User
@@ -146,7 +146,7 @@ const AllUsers = () => {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="bg-red-50 text-red-500 p-4 rounded-lg"
+                    className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-4 rounded-lg"
                 >
                     {error?.data?.message || 'Error loading users. Please try again later.'}
                 </motion.div>
@@ -158,27 +158,19 @@ const AllUsers = () => {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
                 >
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-                        <table {...getTableProps()} className="table w-full">
-                            <thead className="bg-gray-50 dark:bg-gray-700">
+                    <div className="theme-card overflow-hidden">
+                        <table {...getTableProps()} className="w-full">
+                            <thead className="bg-gray-50 dark:bg-gray-700/50">
                                 {headerGroups.map(headerGroup => (
                                     <tr {...headerGroup.getHeaderGroupProps()}>
-                                        {headerGroup.headers.map((column, index) => (
+                                        {headerGroup.headers.map(column => (
                                             <th
-                                                key={index}
                                                 {...column.getHeaderProps(column.getSortByToggleProps())}
-                                                className="px-6 py-3 text-left text-xs font-medium theme-text-secondary uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                                                aria-sort={
-                                                    column.isSorted
-                                                        ? column.isSortedDesc
-                                                            ? "descending"
-                                                            : "ascending"
-                                                        : "none"
-                                                }
+                                                className="px-6 py-3 text-left text-xs font-medium theme-text uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
                                             >
                                                 <div className="flex items-center gap-2">
                                                     {column.render('Header')}
-                                                    <span className="text-gray-400">
+                                                    <span className="theme-text-secondary">
                                                         {column.isSorted
                                                             ? column.isSortedDesc
                                                                 ? '↓'
@@ -191,16 +183,13 @@ const AllUsers = () => {
                                     </tr>
                                 ))}
                             </thead>
-                            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tbody className="divide-y theme-border">
                                 {page.map((row, i) => {
                                     prepareRow(row);
                                     return (
-                                        <motion.tr
+                                        <tr
                                             {...row.getRowProps()}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: i * 0.05 }}
-                                            className="hover:bg-gray-50 transition-colors"
+                                            className="theme-hover"
                                         >
                                             {row.cells.map(cell => (
                                                 <td
@@ -210,7 +199,7 @@ const AllUsers = () => {
                                                     {cell.render('Cell')}
                                                 </td>
                                             ))}
-                                        </motion.tr>
+                                        </tr>
                                     );
                                 })}
                             </tbody>
@@ -224,11 +213,14 @@ const AllUsers = () => {
                             whileTap={{ scale: 0.95 }}
                             onClick={() => previousPage()}
                             disabled={!canPreviousPage}
-                            className={`btn btn-sm ${!canPreviousPage ? 'btn-disabled' : 'btn-primary'}`}
+                            className={`px-4 py-2 rounded-md border border-blue-400 dark:border-blue-700 ${!canPreviousPage
+                                ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+                                : 'theme-button'
+                                }`}
                         >
                             Previous
                         </motion.button>
-                        <span className="text-sm text-gray-700">
+                        <span className="theme-text dark:text-black">
                             Page{' '}
                             <span className="font-medium">{pageIndex + 1}</span>
                             {' '}of{' '}
@@ -239,7 +231,10 @@ const AllUsers = () => {
                             whileTap={{ scale: 0.95 }}
                             onClick={() => nextPage()}
                             disabled={!canNextPage}
-                            className={`btn btn-sm ${!canNextPage ? 'btn-disabled' : 'btn-primary'}`}
+                            className={`px-4 py-2 rounded-md border text-black dark:text-white border-blue-400 dark:border-blue-700 ${!canNextPage
+                                ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+                                : 'theme-button'
+                                }`}
                         >
                             Next
                         </motion.button>
@@ -248,11 +243,11 @@ const AllUsers = () => {
             )}
 
             {/* Modals */}
-            <AddUserModal 
-                isOpen={isAddModalOpen} 
-                onClose={() => setIsAddModalOpen(false)} 
+            <AddUserModal
+                isOpen={isAddModalOpen}
+                onClose={() => setIsAddModalOpen(false)}
             />
-            <DeleteUserModal 
+            <DeleteUserModal
                 isOpen={isDeleteModalOpen}
                 onClose={() => {
                     setIsDeleteModalOpen(false);
@@ -260,7 +255,7 @@ const AllUsers = () => {
                 }}
                 user={selectedUser}
             />
-            <EditUserModal 
+            <EditUserModal
                 isOpen={isEditModalOpen}
                 onClose={() => {
                     setIsEditModalOpen(false);

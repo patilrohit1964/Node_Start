@@ -1,17 +1,23 @@
 import React from 'react';
+import { useGetAllNotesQuery } from '../../features/api/adminApi';
 
 const Dashboard = () => {
+
+    const { data, isLoading, error } = useGetAllNotesQuery();
+    console.log(data)
+
     const stats = [
-        { name: 'Total Users', value: '1,234' },
-        { name: 'Total Notes', value: '5,678' },
-        { name: 'Active Users', value: '892' },
-        { name: 'New Users (Today)', value: '25' },
+        { name: 'Total Users', value: data?.notes?.length },
+        { name: 'Total Notes', value: data?.notes?.length },
+        { name: 'Active Users', value: data?.notes?.length },
+        { name: 'New Users (Today)', value: data?.notes?.length },
     ];
+
 
     return (
         <div>
             <h2 className="text-2xl font-semibold text-gray-900">Dashboard</h2>
-            
+
             {/* Stats Grid */}
             <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 {stats.map((stat) => (

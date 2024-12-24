@@ -80,7 +80,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
-                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-blue-500 focus:ring-blue-500"
+                                            className="mt-1 ps-2 block w-full border-blue-400 rounded-md theme-input focus:border-blue-500 focus:ring-blue-500"
                                         />
                                     </div>
 

@@ -164,3 +164,20 @@ exports.addUserNotes = async (req, res) => {
     });
   }
 };
+
+// admin get all notes
+exports.getAllNotes = async (req, res) => {
+  try {
+    const notes = await Note.find();
+    res.status(200).json({
+      success: true,
+      notes,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching notes",
+      error: error.message,
+    });
+  }
+};

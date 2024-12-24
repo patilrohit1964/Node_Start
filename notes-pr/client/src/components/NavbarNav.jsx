@@ -57,8 +57,7 @@ function NavbarNav() {
                     <div className="hidden md:flex items-center space-x-4">
                         <NavLink
                             className={({ isActive }) =>
-                                `nav-link theme-text no-underline hover:text-gray-600 dark:hover:text-gray-300 px-3 py-2 rounded-md ${
-                                    isActive ? 'text-blue-600 dark:text-blue-400 active' : ''
+                                `nav-link theme-text no-underline hover:text-gray-600 dark:hover:text-gray-300 px-3 py-2 rounded-md ${isActive ? 'text-blue-600 dark:text-blue-400 active' : ''
                                 }`
                             }
                             to="/"
@@ -67,8 +66,7 @@ function NavbarNav() {
                         </NavLink>
                         <NavLink
                             className={({ isActive }) =>
-                                `nav-link theme-text no-underline hover:text-gray-600 dark:hover:text-gray-300 px-3 py-2 rounded-md ${
-                                    isActive ? 'text-blue-600 dark:text-blue-400 active' : ''
+                                `nav-link theme-text no-underline hover:text-gray-600 dark:hover:text-gray-300 px-3 py-2 rounded-md ${isActive ? 'text-blue-600 dark:text-blue-400 active' : ''
                                 }`
                             }
                             to="/create-note"
@@ -77,8 +75,7 @@ function NavbarNav() {
                         </NavLink>
                         <NavLink
                             className={({ isActive }) =>
-                                `nav-link theme-text no-underline hover:text-gray-600 dark:hover:text-gray-300 px-3 py-2 rounded-md ${
-                                    isActive ? 'text-blue-600 dark:text-blue-400 active' : ''
+                                `nav-link theme-text no-underline hover:text-gray-600 dark:hover:text-gray-300 px-3 py-2 rounded-md ${isActive ? 'text-blue-600 dark:text-blue-400 active' : ''
                                 }`
                             }
                             to="/show-notes"
@@ -126,6 +123,17 @@ function NavbarNav() {
                                             Your Profile: {user?.name}
                                         </button>
                                     </MenuItem>
+                                    {user?.role === "admin" && (
+                                        <MenuItem>
+                                            <Link to="/admin/dashboard" className='no-underline'>
+                                                <button
+                                                    className="block w-full px-4 py-2 text-sm theme-text hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
+                                                >
+                                                    Dashboard
+                                                </button>
+                                            </Link>
+                                        </MenuItem>
+                                    )}
                                     <MenuItem>
                                         <button
                                             onClick={handleLogout}

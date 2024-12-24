@@ -34,11 +34,18 @@ export const adminApi = createApi({
     }),
     addUser: builder.mutation({
       query: (userData) => ({
-        url: '/api/admin/add-user',
-        method: 'POST',
+        url: "/api/admin/add-user",
+        method: "POST",
         body: userData,
       }),
-      invalidatesTags: ['Users'],
+      invalidatesTags: ["Users"],
+    }),
+    getAllNotes: builder.query({
+      query: () => ({
+        url: "/api/admin/all-notes",
+        method: "GET",
+      }),
+      invalidatesTags: ["AdminNotes"],
     }),
   }),
 });
@@ -48,6 +55,7 @@ export const {
   useDeleteUserMutation,
   useUpdateUserRoleMutation,
   useAddUserMutation,
+  useGetAllNotesQuery,
 } = adminApi;
 
 export default adminApi;
