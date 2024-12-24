@@ -12,13 +12,18 @@ const NoteDetails = () => {
     const { data, isLoading, isSuccess, isError } = useGetNoteDetailsQuery(noteId);
 
     const [showNoteEdit, setShowNoteEdit] = useState(false);
-
+    const getNoteImages = (noteImage) => {
+        if (noteImage.charAt(0) === "h") {
+            return noteImage
+        }
+        return `http://localhost:8000/${noteImage}`;
+    }
     return isLoading ? <CardSkeleton /> : (
         <div className='flex justify-center items-center h-screen'>
             <div className="card lg:card-side bg-base-100 shadow-xl h-96 w-96">
                 <figure>
                     <img
-                        src={data?.note?.noteImage}
+                        src={getNoteImages(data?.note?.noteImage)}
                         alt="Album" />
                 </figure>
                 <div className="card-body">

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { useUpdateNoteMutation } from '../features/api/noteApi';
+import { useParams } from 'react-router-dom';
 
 const NoteEdit = ({ onClose, noteData }) => {
 
@@ -9,6 +11,8 @@ const NoteEdit = ({ onClose, noteData }) => {
     const [noteImage, setNoteImage] = useState(noteData?.noteImage || '');
     const [showPreview, setShowPreview] = useState(false);
     const [isDarkTheme, setIsDarkTheme] = useState(false);
+    const [updateNote, { isLoading, isError, isSuccess, data }] = useUpdateNoteMutation();
+    const { noteId } = useParams()
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -20,11 +24,33 @@ const NoteEdit = ({ onClose, noteData }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Implement update profile logic
-        toast.success('Profile updated successfully');
-        onClose();
+        try {
+            const formData = new FormData();
+            formData.append("title", title);
+            formData.append("description", description);
+            if (noteImage && typeof noteImage !== 'string') {
+                formData.append("file", noteImage);
+            }
+            
+            await updateNote({ 
+                noteId: noteData._id, 
+                formData 
+            }).unwrap();
+            
+            toast.success("Note Updated Successfully");
+            onClose();
+        } catch (err) {
+            console.error("Error updating note:", err);
+            toast.error(err?.data?.message || "Error updating note");
+        }
     };
 
+    const getNoteImages = (noteImage) => {
+        if (noteImage.charAt(0) === "h") {
+            return noteImage
+        }
+        return `http://localhost:8000/${noteImage}`;
+    }
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className={`bg-white rounded-lg p-6 w-[400px] max-w-[95%]`}>
@@ -45,7 +71,7 @@ const NoteEdit = ({ onClose, noteData }) => {
                         <div className="w-16 h-16 bg-gray-200 rounded-full overflow-hidden">
                             {!showPreview ? (
                                 <img
-                                    src={noteData?.noteImage}
+                                    src={getNoteImages(noteData?.noteImage)}
                                     alt="Profile"
                                     className="w-full h-full object-cover"
                                 />

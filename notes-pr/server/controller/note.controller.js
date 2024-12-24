@@ -30,12 +30,16 @@ exports.getUserNotes = async (req, res) => {
 // update user notes
 exports.updateUserNotes = async (req, res) => {
   try {
-    const { title, description, noteImage } = req.body;
+    const { title, description } = req.body;
     const updateData = {
       title,
       description,
-      noteImage: req?.file?.originalname,
     };
+
+    // Only update image if a new file was uploaded
+    if (req.files?.file) {
+      updateData.noteImage = req.files.file[0].filename;
+    }
 
     const note = await Note.findById(req.params.noteId);
 
@@ -46,11 +50,20 @@ exports.updateUserNotes = async (req, res) => {
       });
     }
 
+    // Check if user owns this note
+    if (note.userId.toString() !== req.id) {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized to update this note",
+      });
+    }
+
     const updatedNote = await Note.findByIdAndUpdate(
       req.params.noteId,
       updateData,
       {
         new: true,
+        runValidators: true,
       }
     );
 

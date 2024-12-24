@@ -39,6 +39,15 @@ export const noteApi = createApi({
       }),
       invalidatesTags: ["Note"],
     }),
+    updateNote: builder.mutation({
+      query: ({ noteId, formData }) => ({
+        url: `/api/note/update-note/${noteId}`,
+        method: "PUT",
+        body: formData,
+        // Don't set Content-Type header for FormData
+      }),
+      invalidatesTags: ["Note"],
+    }),
   }),
 });
 
@@ -47,6 +56,7 @@ export const {
   useGetNotesQuery,
   useGetNoteDetailsQuery,
   useDeleteNoteMutation,
+  useUpdateNoteMutation,
 } = noteApi;
 
 export default noteApi;
