@@ -57,13 +57,19 @@ exports.updateProfile = async (req, res) => {
   try {
     const { name } = req.body;
 
-    const user = await User.findByIdAndUpdate(req.id, {
-      name,
-      profilePic: req?.files?.file[0]?.filename,
-    });
+    const user = await User.findByIdAndUpdate(
+      req.id,
+      {
+        name,
+        profilePic: req?.files?.file[0]?.filename,
+      },
+      { new: true }
+    );
+    const resetPass = user.toObject();
+    delete resetPass.password;
     res.status(200).json({
       success: true,
-      user,
+      user: resetPass,
     });
   } catch (error) {
     res.status(500).json({

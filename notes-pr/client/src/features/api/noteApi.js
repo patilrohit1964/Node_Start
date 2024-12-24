@@ -17,6 +17,7 @@ export const noteApi = createApi({
         body: formData,
         // Don't set Content-Type header - let browser set it with boundary
       }),
+      invalidatesTags: ["Note"],
     }),
     getNotes: builder.query({
       query: (userId) => ({
@@ -44,7 +45,6 @@ export const noteApi = createApi({
         url: `/api/note/update-note/${noteId}`,
         method: "PUT",
         body: formData,
-        // Don't set Content-Type header for FormData
       }),
       invalidatesTags: ["Note"],
     }),

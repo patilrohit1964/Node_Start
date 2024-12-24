@@ -12,6 +12,6 @@ createRoot(document.getElementById('root')).render(
     <Provider store={store}>
       <App />
     </Provider>
-    <ToastContainer position='top-right' autoClose={2000} hideProgressBar={false} closeOnClick={true} pauseOnHover={false} draggable={true} />
+    <ToastContainer position='bottom-right' autoClose={2000} hideProgressBar={false} closeOnClick={true} pauseOnHover={false} draggable={true} />
   </BrowserRouter>,
 )

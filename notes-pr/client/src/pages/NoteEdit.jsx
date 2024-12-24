@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useUpdateNoteMutation } from '../features/api/noteApi';
 import { useParams } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
 
 const NoteEdit = ({ onClose, noteData }) => {
 
@@ -11,8 +12,8 @@ const NoteEdit = ({ onClose, noteData }) => {
     const [noteImage, setNoteImage] = useState(noteData?.noteImage || '');
     const [showPreview, setShowPreview] = useState(false);
     const [isDarkTheme, setIsDarkTheme] = useState(false);
-    const [updateNote, { isLoading, isError, isSuccess, data }] = useUpdateNoteMutation();
-    const { noteId } = useParams()
+    const [updateNote, { isLoading, isError, isSuccess, }] = useUpdateNoteMutation();
+
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -31,17 +32,16 @@ const NoteEdit = ({ onClose, noteData }) => {
             if (noteImage && typeof noteImage !== 'string') {
                 formData.append("file", noteImage);
             }
-            
-            await updateNote({ 
-                noteId: noteData._id, 
-                formData 
+
+            await updateNote({
+                noteId: noteData._id,
+                formData
             }).unwrap();
-            
             toast.success("Note Updated Successfully");
             onClose();
         } catch (err) {
             console.error("Error updating note:", err);
-            toast.error(err?.data?.message || "Error updating note");
+            toast.error("Error During Update")
         }
     };
 
@@ -51,6 +51,8 @@ const NoteEdit = ({ onClose, noteData }) => {
         }
         return `http://localhost:8000/${noteImage}`;
     }
+
+
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className={`bg-white rounded-lg p-6 w-[400px] max-w-[95%]`}>
@@ -154,7 +156,7 @@ const NoteEdit = ({ onClose, noteData }) => {
                             type="submit"
                             className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
                         >
-                            Save
+                            {isLoading ? <Spinner animation='border' size='sm' /> : "Save"}
                         </button>
                     </div>
                 </form>

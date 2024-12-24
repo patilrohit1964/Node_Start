@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 import { useCreateNoteMutation } from '../features/api/noteApi';
 import { toast } from 'react-toastify';
 import { Spinner } from 'react-bootstrap';
@@ -35,7 +35,8 @@ const CreateNote = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success("Note created successfully");
+            toast.success(data?.message || "Note created successfully");
+            navigate("/show-notes");    
             setTitle("");
             setDescription("");
             setNoteImage(null);
@@ -73,6 +74,7 @@ const CreateNote = () => {
                         <Form.Label>Note Image</Form.Label>
                         <InputGroup>
                             <Form.Control
+                                required
                                 type="file"
                                 accept='image/*'
                                 onChange={(e) => setNoteImage(e.target.files[0])}

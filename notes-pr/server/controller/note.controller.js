@@ -159,7 +159,7 @@ exports.addUserNotes = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error adding note",
+      message: "Error adding note all fields are required",
       error: error.message,
     });
   }
