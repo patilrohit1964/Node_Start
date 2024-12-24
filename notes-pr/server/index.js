@@ -24,10 +24,10 @@ connectDB();
 
 const userRoutes = require("./routes/user.route");
 const noteRoutes = require("./routes/note.route");
-
+const adminRoutes = require("./routes/admin.route");
 app.use("/api/user", userRoutes);
 app.use("/api/note", noteRoutes);
-
+app.use("/api/admin", adminRoutes);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

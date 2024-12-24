@@ -12,6 +12,7 @@ import PrivateRoute from './components/PrivateRoute'
 import UserEdit from './pages/UserEdit'
 import AdminLayout from './pages/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
+import AllUsers from './pages/admin/AllUsers'
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
         <Route path='/register' element={<SignUp />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="users" element={<div>Users Management</div>} />
+          <Route path="users" element={<AllUsers />} />
           <Route path="notes" element={<div>Notes Management</div>} />
           <Route path="settings" element={<div>Admin Settings</div>} />
         </Route>
