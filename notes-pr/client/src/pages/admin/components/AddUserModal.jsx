@@ -54,10 +54,10 @@ const AddUserModal = ({ isOpen, onClose }) => {
                         className="fixed inset-0 z-50 overflow-y-auto"
                     >
                         <div className="flex min-h-full items-center justify-center p-4">
-                            <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+                            <div className="theme-bg rounded-lg shadow-xl w-full max-w-md">
                                 {/* Header */}
-                                <div className="flex justify-between items-center p-6 border-b">
-                                    <h3 className="text-lg font-semibold text-gray-900">
+                                <div className="flex justify-between items-center p-6 border-b theme-border">
+                                    <h3 className="text-lg font-semibold theme-text">
                                         Add New User
                                     </h3>
                                     <button
@@ -71,7 +71,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
                                 {/* Form */}
                                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">
+                                        <label className="block text-sm font-medium theme-text">
                                             Name
                                         </label>
                                         <input
@@ -80,12 +80,12 @@ const AddUserModal = ({ isOpen, onClose }) => {
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
-                                            className="mt-1 ps-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-blue-500"
+                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-blue-500 focus:ring-blue-500"
                                         />
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">
+                                        <label className="block text-sm font-medium theme-text">
                                             Email
                                         </label>
                                         <input
@@ -94,12 +94,12 @@ const AddUserModal = ({ isOpen, onClose }) => {
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
-                                            className="mt-1 ps-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-blue-500"
+                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-blue-500 focus:ring-blue-500"
                                         />
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">
+                                        <label className="block text-sm font-medium theme-text">
                                             Password
                                         </label>
                                         <input
@@ -108,19 +108,19 @@ const AddUserModal = ({ isOpen, onClose }) => {
                                             value={formData.password}
                                             onChange={handleChange}
                                             required
-                                            className="mt-1 ps-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-blue-500"
+                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-blue-500 focus:ring-blue-500"
                                         />
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">
+                                        <label className="block text-sm font-medium theme-text">
                                             Role
                                         </label>
                                         <select
                                             name="role"
                                             value={formData.role}
                                             onChange={handleChange}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-blue-500"
+                                            className="mt-1 block w-full rounded-md theme-input focus:border-blue-500 focus:ring-blue-500"
                                         >
                                             <option value="user">User</option>
                                             <option value="admin">Admin</option>

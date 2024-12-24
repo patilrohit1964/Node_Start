@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import UserEdit from '../pages/UserEdit';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import ThemeToggler from './ThemeToggler';
+import { useTheme } from '../context/ThemeContext';
 
 function NavbarNav() {
     const { user, isAuthenticated } = useSelector(state => state.authReducer);
@@ -17,6 +19,7 @@ function NavbarNav() {
     const navigate = useNavigate();
     const [showProfileEdit, setShowProfileEdit] = useState(false);
     const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
+    const { isDarkMode } = useTheme();
 
     const handleLogout = async () => {
         await logOutUser();
@@ -34,7 +37,7 @@ function NavbarNav() {
     };
 
     const getProfileImageUrl = (profilePicPath) => {
-       
+
         if (profilePicPath.charAt(0) === "h") {
             return profilePicPath
         }
@@ -42,19 +45,20 @@ function NavbarNav() {
     }
 
     return (
-        <nav className="bg-gray-900 text-white">
+        <nav className="theme-bg border-b theme-border shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <div className="flex-shrink-0">
-                        <Link to="/" className="text-xl font-bold no-underline">Notes App</Link>
+                        <Link to="/" className="text-xl font-bold theme-text no-underline">Notes App</Link>
                     </div>
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-4">
                         <NavLink
                             className={({ isActive }) =>
-                                `nav-link no-underline hover:text-gray-300 px-3 py-2 rounded-md ${isActive ? 'text-blue-400 active' : 'text-white'
+                                `nav-link theme-text no-underline hover:text-gray-600 dark:hover:text-gray-300 px-3 py-2 rounded-md ${
+                                    isActive ? 'text-blue-600 dark:text-blue-400 active' : ''
                                 }`
                             }
                             to="/"
@@ -63,7 +67,8 @@ function NavbarNav() {
                         </NavLink>
                         <NavLink
                             className={({ isActive }) =>
-                                `nav-link no-underline hover:text-gray-300 px-3 py-2 rounded-md ${isActive ? 'text-blue-400 active' : 'text-white'
+                                `nav-link theme-text no-underline hover:text-gray-600 dark:hover:text-gray-300 px-3 py-2 rounded-md ${
+                                    isActive ? 'text-blue-600 dark:text-blue-400 active' : ''
                                 }`
                             }
                             to="/create-note"
@@ -72,7 +77,8 @@ function NavbarNav() {
                         </NavLink>
                         <NavLink
                             className={({ isActive }) =>
-                                `nav-link no-underline hover:text-gray-300 px-3 py-2 rounded-md ${isActive ? 'text-blue-400 active' : 'text-white'
+                                `nav-link theme-text no-underline hover:text-gray-600 dark:hover:text-gray-300 px-3 py-2 rounded-md ${
+                                    isActive ? 'text-blue-600 dark:text-blue-400 active' : ''
                                 }`
                             }
                             to="/show-notes"
@@ -85,7 +91,7 @@ function NavbarNav() {
                     <div className="md:hidden">
                         <button
                             onClick={() => setIsOffcanvasOpen(true)}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-300"
+                            className="inline-flex items-center justify-center p-2 rounded-md theme-text hover:text-gray-600 dark:hover:text-gray-300"
                         >
                             <Bars3Icon className="h-6 w-6" />
                         </button>
@@ -96,10 +102,10 @@ function NavbarNav() {
                         {!user ? (
                             <div className="flex items-center space-x-4">
                                 <Link to="/login">
-                                    <Button variant="outline-light">Login</Button>
+                                    <Button variant="outline-primary" className="theme-text border-current">Login</Button>
                                 </Link>
                                 <Link to="/register">
-                                    <Button variant="outline-light">Register</Button>
+                                    <Button variant="outline-primary" className="theme-text border-current">Register</Button>
                                 </Link>
                             </div>
                         ) : (
@@ -111,11 +117,11 @@ function NavbarNav() {
                                         className="h-8 w-8 rounded-full border border-white"
                                     />
                                 </MenuButton>
-                                <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5">
+                                <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right theme-bg theme-border rounded-md py-1 shadow-lg">
                                     <MenuItem>
                                         <button
                                             onClick={() => setShowProfileEdit(true)}
-                                            className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                                            className="block w-full px-4 py-2 text-sm theme-text hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
                                         >
                                             Your Profile: {user?.name}
                                         </button>
@@ -123,7 +129,7 @@ function NavbarNav() {
                                     <MenuItem>
                                         <button
                                             onClick={handleLogout}
-                                            className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                                            className="block w-full px-4 py-2 text-sm theme-text hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
                                         >
                                             Sign out
                                         </button>
@@ -131,6 +137,10 @@ function NavbarNav() {
                                 </MenuItems>
                             </Menu>
                         )}
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <ThemeToggler />
                     </div>
                 </div>
             </div>
@@ -142,11 +152,11 @@ function NavbarNav() {
                     <div className="fixed inset-0 bg-black bg-opacity-50" onClick={closeOffcanvas}></div>
 
                     {/* Offcanvas content */}
-                    <div className="fixed inset-y-0 right-0 w-64 bg-gray-900 px-6 py-4">
+                    <div className="fixed inset-y-0 right-0 w-64 theme-bg px-6 py-4">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-xl font-bold">Menu</h2>
-                            <button onClick={closeOffcanvas}>
-                                <XMarkIcon className="h-6 w-6 text-white" />
+                            <h2 className="text-xl font-bold theme-text">Menu</h2>
+                            <button onClick={closeOffcanvas} className="theme-text">
+                                <XMarkIcon className="h-6 w-6" />
                             </button>
                         </div>
 

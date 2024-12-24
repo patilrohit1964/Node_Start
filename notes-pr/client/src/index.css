@@ -2,81 +2,102 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/* Add these styles for the toggle switch */
-.toggle-checkbox {
-  right: 0;
-  z-index: 1;
-  transition: all 0.3s;
+@layer base {
+  body {
+    @apply transition-colors duration-200;
+  }
 }
 
-.toggle-checkbox:checked {
-  right: 4px;
-  border-color: #9333ea;
+/* Dark mode styles */
+.dark {
+  @apply bg-gray-900 text-white;
 }
 
-.toggle-label {
-  width: 40px;
-  transition: background-color 0.3s;
+.dark body {
+  @apply bg-gray-900 text-white;
 }
 
-/* Add to your existing styles */
-.active {
-  @apply text-blue-400 no-underline;
+/* Component specific dark mode styles */
+.dark .navbar {
+  @apply bg-gray-800 border-gray-700;
 }
 
-/* Add this to ensure no underlines on links */
-a {
-  text-decoration: none !important;
+.dark .card {
+  @apply bg-gray-800 border-gray-700;
 }
 
-/* Transition classes for menu */
-.menu-enter {
-  opacity: 0;
-  transform: translateX(100%);
+.dark .input {
+  @apply bg-gray-700 border-gray-600 text-white;
 }
 
-.menu-enter-active {
-  opacity: 1;
-  transform: translateX(0);
-  transition: opacity 300ms, transform 300ms;
+.dark .button {
+  @apply bg-gray-700 hover:bg-gray-600;
 }
 
-.menu-exit {
-  opacity: 1;
-  transform: translateX(0);
+.dark .table {
+  @apply bg-gray-800 text-gray-200;
 }
 
-.menu-exit-active {
-  opacity: 0;
-  transform: translateX(100%);
-  transition: opacity 300ms, transform 300ms;
+.dark .table thead {
+  @apply bg-gray-700;
 }
 
-/* Add these styles for navbar link animations */
-.nav-link {
-  position: relative;
-  transition: all 0.3s ease;
+.dark .table tbody tr:hover {
+  @apply bg-gray-700;
 }
 
-.nav-link::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 50%;
-  background-color: #60A5FA; /* Tailwind blue-400 */
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
+.dark .modal {
+  @apply bg-gray-800 text-white;
 }
 
-.nav-link:hover::after {
-  width: 100%;
+.dark .dropdown-content {
+  @apply bg-gray-800 text-white border-gray-700;
 }
 
-/* For active state */
-.nav-link.active::after {
-  width: 100%;
-  background-color: #60A5FA;
+/* Add transitions */
+.transition-theme {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Custom classes for theme-aware components */
+.theme-bg {
+  @apply bg-white dark:bg-gray-800 transition-theme;
+}
+
+.theme-text {
+  @apply text-gray-900 dark:text-white transition-theme;
+}
+
+.theme-border {
+  @apply border-gray-200 dark:border-gray-700 transition-theme;
+}
+
+.theme-card {
+  @apply bg-white dark:bg-gray-800 shadow-lg rounded-lg transition-theme;
+}
+
+/* Add these to your existing theme-aware classes */
+.theme-text-secondary {
+  @apply text-gray-600 dark:text-gray-300;
+}
+
+.theme-hover {
+  @apply hover:bg-gray-100 dark:hover:bg-gray-700;
+}
+
+.theme-button {
+  @apply bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600;
+}
+
+.theme-button-outline {
+  @apply border border-current theme-text hover:bg-gray-100 dark:hover:bg-gray-700;
+}
+
+/* Add styles for form elements */
+.theme-input {
+  @apply bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600;
+}
+
+.theme-select {
+  @apply bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600;
 }

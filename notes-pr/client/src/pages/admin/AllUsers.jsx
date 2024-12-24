@@ -21,7 +21,7 @@ const AllUsers = () => {
             Header: "ID",
             accessor: "_id",
             Cell: ({ value }) => (
-                <span className="text-sm font-mono text-gray-600">{value.slice(0, 8)}...</span>
+                <span className="text-sm font-mono theme-text-secondary">{value.slice(0, 8)}...</span>
             )
         },
         {
@@ -40,7 +40,7 @@ const AllUsers = () => {
             Header: "Email",
             accessor: "email",
             Cell: ({ value }) => (
-                <span className="text-gray-600">{value}</span>
+                <span className="theme-text-secondary">{value}</span>
             )
         },
         {
@@ -158,16 +158,16 @@ const AllUsers = () => {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
                 >
-                    <div className="bg-white rounded-lg shadow-sm">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
                         <table {...getTableProps()} className="table w-full">
-                            <thead className="bg-gray-50">
+                            <thead className="bg-gray-50 dark:bg-gray-700">
                                 {headerGroups.map(headerGroup => (
                                     <tr {...headerGroup.getHeaderGroupProps()}>
                                         {headerGroup.headers.map((column, index) => (
                                             <th
                                                 key={index}
                                                 {...column.getHeaderProps(column.getSortByToggleProps())}
-                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
+                                                className="px-6 py-3 text-left text-xs font-medium theme-text-secondary uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                                                 aria-sort={
                                                     column.isSorted
                                                         ? column.isSortedDesc
@@ -191,7 +191,7 @@ const AllUsers = () => {
                                     </tr>
                                 ))}
                             </thead>
-                            <tbody {...getTableBodyProps()} className="divide-y divide-gray-200">
+                            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                                 {page.map((row, i) => {
                                     prepareRow(row);
                                     return (

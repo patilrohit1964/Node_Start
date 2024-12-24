@@ -14,37 +14,41 @@ import AdminLayout from './pages/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
 import AllUsers from './pages/admin/AllUsers'
 import AdminRoute from './components/AdminRoute'
+import { ThemeProvider } from './context/ThemeContext'
 
 
 function App() {
   return (
-    <div>
-      <NavbarNav />
-      <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<SignUp />} />
-        
-        {/* Admin Routes */}
-        <Route element={<AdminRoute />}>
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="users" element={<AllUsers />} />
-            <Route path="notes" element={<div>Notes Management</div>} />
-            <Route path="settings" element={<div>Admin Settings</div>} />
-          </Route>
-        </Route>
+    <ThemeProvider>
+      <div className="min-h-screen theme-bg theme-text">
+        <NavbarNav />
+        <div className="transition-theme">
+          <Routes>
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<SignUp />} />
+            
+            {/* Admin Routes */}
+            <Route element={<AdminRoute />}>
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="users" element={<AllUsers />} />
+                <Route path="notes" element={<div>Notes Management</div>} />
+                <Route path="settings" element={<div>Admin Settings</div>} />
+              </Route>
+            </Route>
 
-        {/* Protected User Routes */}
-        <Route element={<PrivateRoute />}>
-          <Route path='/' element={<Home />} />
-          <Route path='/create-note' element={<CreateNote />} />
-          <Route path='/show-notes' element={<ShowNote />} />
-          <Route path='/edit-profile' element={<UserEdit />} />
-          <Route path='/note-details/:noteId' element={<NoteDetails />} />
-        </Route>
-      </Routes>
-      {/* <Footer /> */}
-    </div>
+            {/* Protected User Routes */}
+            <Route element={<PrivateRoute />}>
+              <Route path='/' element={<Home />} />
+              <Route path='/create-note' element={<CreateNote />} />
+              <Route path='/show-notes' element={<ShowNote />} />
+              <Route path='/edit-profile' element={<UserEdit />} />
+              <Route path='/note-details/:noteId' element={<NoteDetails />} />
+            </Route>
+          </Routes>
+        </div>
+      </div>
+    </ThemeProvider>
   )
 }
 
