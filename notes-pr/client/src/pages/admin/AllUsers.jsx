@@ -1,199 +1,275 @@
-import React from 'react'
-import { useGetAllUsersQuery } from '../../features/api/adminApi'
-
-
-const columns = [
-    {
-        Header: "ID",
-        accessor: "id"
-    },
-    {
-        Header: "Name",
-        accessor: "name"
-    },
-    {
-        Header: "Email",
-        accessor: "email"
-    },
-    {
-        Header: "Created_at",
-        accessor: "created_at"
-    },
-    {
-        Header: "Role",
-        accessor: "role"
-    },
-]
-
+import React, { useMemo, useState } from 'react';
+import { useGetAllUsersQuery } from '../../features/api/adminApi';
+import { useTable, useSortBy, usePagination } from "react-table";
+import { Spinner } from 'react-bootstrap';
+import { motion } from 'framer-motion';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import AddUserModal from './components/AddUserModal';
+import DeleteUserModal from './components/DeleteUserModal';
+import EditUserModal from './components/EditUserModal';
 
 
 const AllUsers = () => {
+    const { data, isLoading, isError, error } = useGetAllUsersQuery();
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
 
+    const columns = useMemo(() => [
+        {
+            Header: "ID",
+            accessor: "_id",
+            Cell: ({ value }) => (
+                <span className="text-sm font-mono text-gray-600">{value.slice(0, 8)}...</span>
+            )
+        },
+        {
+            Header: "Name",
+            accessor: "name",
+            Cell: ({ value, row }) => (
+                <div className="flex items-center gap-3">
+                    <div className="avatar w-8 h-8">
+                        <img className="w-full h-full rounded-full bg-blue-100 flex items-center justify-center" src={row?.original?.profilePic} alt='profile-pic' />
+                    </div>
+                    <span className="font-medium">{value}</span>
+                </div>
+            )
+        },
+        {
+            Header: "Email",
+            accessor: "email",
+            Cell: ({ value }) => (
+                <span className="text-gray-600">{value}</span>
+            )
+        },
+        {
+            Header: "Created At",
+            accessor: (row) => new Date(row.createdAt).toLocaleDateString(),
+            Cell: ({ value }) => (
+                <span className="text-sm text-gray-500">{value}</span>
+            )
+        },
+        {
+            Header: "Role",
+            accessor: "role",
+            Cell: ({ value }) => (
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${value === 'admin'
+                    ? 'bg-purple-100 text-purple-800'
+                    : 'bg-gray-100 text-gray-800'
+                    }`}>
+                    {value}
+                </span>
+            )
+        },
+        {
+            Header: "Actions",
+            accessor: "actions",
+            Cell: ({ row }) => (
+                <div className="flex gap-2">
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="btn btn-sm btn-ghost text-blue-600"
+                        onClick={() => {
+                            setSelectedUser(row.original);
+                            setIsEditModalOpen(true);
+                        }}
+                    >
+                        <FiEdit2 size={16} />
+                    </motion.button>
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="btn btn-sm btn-ghost text-red-600"
+                        onClick={() => {
+                            setSelectedUser(row.original);
+                            setIsDeleteModalOpen(true);
+                        }}
+                    >
+                        <FiTrash2 size={16} />
+                    </motion.button>
+                </div>
+            )
+        }
+    ], []);
 
-    const { data, isLoading, isSuccess, isError } = useGetAllUsersQuery();
-    console.log(data);
+    const tableData = useMemo(() => data?.users || [], [data]);
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        page,
+        prepareRow,
+        nextPage,
+        previousPage,
+        canNextPage,
+        canPreviousPage,
+        pageOptions,
+        state: { pageIndex },
+    } = useTable(
+        {
+            columns,
+            data: tableData,
+            initialState: { pageSize: 10 }
+        },
+        useSortBy,
+        usePagination
+    );
+
     return (
-        <div>
-            <div className="overflow-x-auto">
-                <table className="table">
-                    {/* head */}
-                    <thead>
-                        <tr>
-                            <th>
-                                <label>
-                                    <input type="checkbox" className="checkbox" />
-                                </label>
-                            </th>
-                            <th>Name</th>
-                            <th>Job</th>
-                            <th>Favorite Color</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* row 1 */}
-                        <tr>
-                            <th>
-                                <label>
-                                    <input type="checkbox" className="checkbox" />
-                                </label>
-                            </th>
-                            <td>
-                                <div className="flex items-center gap-3">
-                                    <div className="avatar">
-                                        <div className="mask mask-squircle h-12 w-12">
-                                            <img
-                                                src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                                                alt="Avatar Tailwind CSS Component" />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="font-bold">Hart Hagerty</div>
-                                        <div className="text-sm opacity-50">United States</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                Zemlak, Daniel and Leannon
-                                <br />
-                                <span className="badge badge-ghost badge-sm">Desktop Support Technician</span>
-                            </td>
-                            <td>Purple</td>
-                            <th>
-                                <button className="btn btn-ghost btn-xs">details</button>
-                            </th>
-                        </tr>
-                        {/* row 2 */}
-                        <tr>
-                            <th>
-                                <label>
-                                    <input type="checkbox" className="checkbox" />
-                                </label>
-                            </th>
-                            <td>
-                                <div className="flex items-center gap-3">
-                                    <div className="avatar">
-                                        <div className="mask mask-squircle h-12 w-12">
-                                            <img
-                                                src="https://img.daisyui.com/images/profile/demo/3@94.webp"
-                                                alt="Avatar Tailwind CSS Component" />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="font-bold">Brice Swyre</div>
-                                        <div className="text-sm opacity-50">China</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                Carroll Group
-                                <br />
-                                <span className="badge badge-ghost badge-sm">Tax Accountant</span>
-                            </td>
-                            <td>Red</td>
-                            <th>
-                                <button className="btn btn-ghost btn-xs">details</button>
-                            </th>
-                        </tr>
-                        {/* row 3 */}
-                        <tr>
-                            <th>
-                                <label>
-                                    <input type="checkbox" className="checkbox" />
-                                </label>
-                            </th>
-                            <td>
-                                <div className="flex items-center gap-3">
-                                    <div className="avatar">
-                                        <div className="mask mask-squircle h-12 w-12">
-                                            <img
-                                                src="https://img.daisyui.com/images/profile/demo/4@94.webp"
-                                                alt="Avatar Tailwind CSS Component" />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="font-bold">Marjy Ferencz</div>
-                                        <div className="text-sm opacity-50">Russia</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                Rowe-Schoen
-                                <br />
-                                <span className="badge badge-ghost badge-sm">Office Assistant I</span>
-                            </td>
-                            <td>Crimson</td>
-                            <th>
-                                <button className="btn btn-ghost btn-xs">details</button>
-                            </th>
-                        </tr>
-                        {/* row 4 */}
-                        <tr>
-                            <th>
-                                <label>
-                                    <input type="checkbox" className="checkbox" />
-                                </label>
-                            </th>
-                            <td>
-                                <div className="flex items-center gap-3">
-                                    <div className="avatar">
-                                        <div className="mask mask-squircle h-12 w-12">
-                                            <img
-                                                src="https://img.daisyui.com/images/profile/demo/5@94.webp"
-                                                alt="Avatar Tailwind CSS Component" />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="font-bold">Yancy Tear</div>
-                                        <div className="text-sm opacity-50">Brazil</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                Wyman-Ledner
-                                <br />
-                                <span className="badge badge-ghost badge-sm">Community Outreach Specialist</span>
-                            </td>
-                            <td>Indigo</td>
-                            <th>
-                                <button className="btn btn-ghost btn-xs">details</button>
-                            </th>
-                        </tr>
-                    </tbody>
-                    {/* foot */}
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Job</th>
-                            <th>Favorite Color</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="overflow-x-auto p-4"
+        >
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-semibold text-gray-800">All Users</h2>
+                <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="btn btn-primary"
+                    onClick={() => setIsAddModalOpen(true)}
+                >
+                    Add New User
+                </motion.button>
             </div>
-        </div>
-    )
-}
 
-export default AllUsers
+            {isLoading && (
+                <div className="flex justify-center p-8">
+                    <Spinner animation="border" className="text-primary" />
+                </div>
+            )}
+
+            {isError && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="bg-red-50 text-red-500 p-4 rounded-lg"
+                >
+                    {error?.data?.message || 'Error loading users. Please try again later.'}
+                </motion.div>
+            )}
+
+            {!isLoading && !isError && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                >
+                    <div className="bg-white rounded-lg shadow-sm">
+                        <table {...getTableProps()} className="table w-full">
+                            <thead className="bg-gray-50">
+                                {headerGroups.map(headerGroup => (
+                                    <tr {...headerGroup.getHeaderGroupProps()}>
+                                        {headerGroup.headers.map((column, index) => (
+                                            <th
+                                                key={index}
+                                                {...column.getHeaderProps(column.getSortByToggleProps())}
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
+                                                aria-sort={
+                                                    column.isSorted
+                                                        ? column.isSortedDesc
+                                                            ? "descending"
+                                                            : "ascending"
+                                                        : "none"
+                                                }
+                                            >
+                                                <div className="flex items-center gap-2">
+                                                    {column.render('Header')}
+                                                    <span className="text-gray-400">
+                                                        {column.isSorted
+                                                            ? column.isSortedDesc
+                                                                ? '↓'
+                                                                : '↑'
+                                                            : ''}
+                                                    </span>
+                                                </div>
+                                            </th>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </thead>
+                            <tbody {...getTableBodyProps()} className="divide-y divide-gray-200">
+                                {page.map((row, i) => {
+                                    prepareRow(row);
+                                    return (
+                                        <motion.tr
+                                            {...row.getRowProps()}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: i * 0.05 }}
+                                            className="hover:bg-gray-50 transition-colors"
+                                        >
+                                            {row.cells.map(cell => (
+                                                <td
+                                                    {...cell.getCellProps()}
+                                                    className="px-6 py-4 whitespace-nowrap"
+                                                >
+                                                    {cell.render('Cell')}
+                                                </td>
+                                            ))}
+                                        </motion.tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Pagination */}
+                    <div className="flex justify-between items-center mt-4 px-4">
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => previousPage()}
+                            disabled={!canPreviousPage}
+                            className={`btn btn-sm ${!canPreviousPage ? 'btn-disabled' : 'btn-primary'}`}
+                        >
+                            Previous
+                        </motion.button>
+                        <span className="text-sm text-gray-700">
+                            Page{' '}
+                            <span className="font-medium">{pageIndex + 1}</span>
+                            {' '}of{' '}
+                            <span className="font-medium">{pageOptions.length}</span>
+                        </span>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => nextPage()}
+                            disabled={!canNextPage}
+                            className={`btn btn-sm ${!canNextPage ? 'btn-disabled' : 'btn-primary'}`}
+                        >
+                            Next
+                        </motion.button>
+                    </div>
+                </motion.div>
+            )}
+
+            {/* Modals */}
+            <AddUserModal 
+                isOpen={isAddModalOpen} 
+                onClose={() => setIsAddModalOpen(false)} 
+            />
+            <DeleteUserModal 
+                isOpen={isDeleteModalOpen}
+                onClose={() => {
+                    setIsDeleteModalOpen(false);
+                    setSelectedUser(null);
+                }}
+                user={selectedUser}
+            />
+            <EditUserModal 
+                isOpen={isEditModalOpen}
+                onClose={() => {
+                    setIsEditModalOpen(false);
+                    setSelectedUser(null);
+                }}
+                user={selectedUser}
+            />
+        </motion.div>
+    );
+};
+
+export default AllUsers;

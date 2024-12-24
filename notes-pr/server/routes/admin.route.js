@@ -6,6 +6,7 @@ const {
   getAdminUsers,
   deleteAdminUser,
   updateAdminUser,
+  addAdminUser,
 } = require("../controller/admin.controller");
 const verifyToken = require("../middleware/verifyToken");
 
@@ -14,4 +15,5 @@ router
   .route("/delete-user/:userId")
   .delete(verifyToken, isAdmin, deleteAdminUser);
 router.route("/update-user/:userId").put(verifyToken, isAdmin, updateAdminUser);
+router.route("/add-user").post(verifyToken, isAdmin, addAdminUser);
 module.exports = router;

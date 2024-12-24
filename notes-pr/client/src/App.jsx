@@ -13,6 +13,7 @@ import UserEdit from './pages/UserEdit'
 import AdminLayout from './pages/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
 import AllUsers from './pages/admin/AllUsers'
+import AdminRoute from './components/AdminRoute'
 
 
 function App() {
@@ -22,12 +23,18 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<SignUp />} />
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="users" element={<AllUsers />} />
-          <Route path="notes" element={<div>Notes Management</div>} />
-          <Route path="settings" element={<div>Admin Settings</div>} />
+        
+        {/* Admin Routes */}
+        <Route element={<AdminRoute />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="users" element={<AllUsers />} />
+            <Route path="notes" element={<div>Notes Management</div>} />
+            <Route path="settings" element={<div>Admin Settings</div>} />
+          </Route>
         </Route>
+
+        {/* Protected User Routes */}
         <Route element={<PrivateRoute />}>
           <Route path='/' element={<Home />} />
           <Route path='/create-note' element={<CreateNote />} />
