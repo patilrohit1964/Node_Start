@@ -13,14 +13,14 @@ const NoteDetails = () => {
 
     const [showNoteEdit, setShowNoteEdit] = useState(false);
     const getNoteImages = (noteImage) => {
-        if (noteImage.charAt(0) === "h") {
+        if (noteImage.charAt(0) === "h") {  
             return noteImage
         }
-        return `http://localhost:8000/${noteImage}`;
+        return `${import.meta.env.VITE_SERVER_URL}/${noteImage}`;
     }
     return isLoading ? <CardSkeleton /> : (
         <div className='flex justify-center items-center h-screen'>
-            <div className="card lg:card-side bg-base-100 shadow-xl h-96 w-96">
+            <div className="card lg:card-side bg-base-100 shadow-xl h-96 w-96 dark:text-white">
                 <figure>
                     <img
                         src={getNoteImages(data?.note?.noteImage)}
@@ -72,20 +72,19 @@ const NoteDelete = ({ id }) => {
 
             {isOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-[400px] max-w-[95%]">
-                        <h3 className="font-bold text-lg">Delete Note</h3>
-                        <p className="py-4">Are you sure you want to delete this note?</p>
+                    <div className="theme-card p-6 w-[400px] max-w-[95%]">
+                        <h3 className="font-bold text-lg theme-text">Delete Note</h3>
+                        <p className="py-4 theme-text">Are you sure you want to delete this note?</p>
                         <div className="modal-action flex justify-end gap-3">
                             <button
-                                className="btn btn-outline-primary"
+                                className="btn btn-outline-primary dark:text-white"
                                 onClick={() => setIsOpen(false)}
                             >
                                 Cancel
                             </button>
                             <button
-                                className="btn btn-outline-danger"
+                                className="btn dark:text-white btn-outline-danger"
                                 onClick={() => {
-                                    // TODO: Add delete logic here
                                     handleDelete()
                                 }}
                             >
