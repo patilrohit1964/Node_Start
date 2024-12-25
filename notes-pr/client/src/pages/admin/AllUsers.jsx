@@ -125,7 +125,7 @@ const AllUsers = () => {
             className="overflow-x-auto p-4"
         >
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-semibold theme-text dark:text-black">All Users</h2>
+                <h2 className="text-2xl font-semibold theme-text dark:text-white">All Users</h2>
                 <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -213,14 +213,14 @@ const AllUsers = () => {
                             whileTap={{ scale: 0.95 }}
                             onClick={() => previousPage()}
                             disabled={!canPreviousPage}
-                            className={`px-4 py-2 rounded-md border border-blue-400 dark:border-blue-700 ${!canPreviousPage
+                            className={`px-4 py-2 rounded-md border ${!canPreviousPage
                                 ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
-                                : 'theme-button'
+                                : 'border-black text-black dark:border-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                                 }`}
                         >
                             Previous
                         </motion.button>
-                        <span className="theme-text dark:text-black">
+                        <span className="theme-text">
                             Page{' '}
                             <span className="font-medium">{pageIndex + 1}</span>
                             {' '}of{' '}
@@ -231,9 +231,9 @@ const AllUsers = () => {
                             whileTap={{ scale: 0.95 }}
                             onClick={() => nextPage()}
                             disabled={!canNextPage}
-                            className={`px-4 py-2 rounded-md border text-black dark:text-white border-blue-400 dark:border-blue-700 ${!canNextPage
+                            className={`px-4 py-2 rounded-md border ${!canNextPage
                                 ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
-                                : 'theme-button'
+                                : 'border-black text-black dark:border-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                                 }`}
                         >
                             Next

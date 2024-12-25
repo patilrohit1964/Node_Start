@@ -168,7 +168,10 @@ exports.addUserNotes = async (req, res) => {
 // admin get all notes
 exports.getAllNotes = async (req, res) => {
   try {
-    const notes = await Note.find();
+    const notes = await Note.find().populate({
+      path: "userId",
+      select: "profilePic name",
+    });
     res.status(200).json({
       success: true,
       notes,

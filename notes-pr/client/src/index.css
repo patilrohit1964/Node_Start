@@ -61,24 +61,24 @@
 
 /* Custom classes for theme-aware components */
 .theme-bg {
-  @apply bg-white dark:bg-gray-800 transition-theme;
+  @apply bg-gray-50 dark:bg-gray-900 transition-colors;
 }
 
 .theme-text {
-  @apply text-gray-900 dark:text-white transition-theme;
+  @apply text-gray-900 dark:text-white transition-colors;
 }
 
 .theme-border {
-  @apply border-gray-200 dark:border-gray-700 transition-theme;
+  @apply border-gray-200 dark:border-gray-700 transition-colors;
 }
-
+  
 .theme-card {
-  @apply bg-white dark:bg-gray-800 shadow-lg rounded-lg transition-theme;
+  @apply bg-white dark:bg-gray-800 shadow-sm dark:shadow-gray-900 rounded-lg border theme-border transition-colors;
 }
 
 /* Add these to your existing theme-aware classes */
 .theme-text-secondary {
-  @apply text-gray-600 dark:text-gray-300;
+  @apply text-gray-600 dark:text-gray-300 transition-colors;
 }
 
 .theme-hover {
@@ -100,4 +100,33 @@
 
 .theme-select {
   @apply bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600;
+}
+
+/* Add these new theme classes */
+.theme-sidebar {
+    @apply bg-gray-50 dark:bg-gray-900 border-r theme-border;
+}
+
+.theme-sidebar-header {
+    @apply bg-gray-100 dark:bg-gray-800 border-b theme-border;
+}
+
+.theme-link {
+    @apply text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white;
+}
+
+.theme-active-link {
+    @apply bg-blue-50 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300;
+}
+
+/* Add these if not already present */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.theme-card-hover {
+  @apply hover:shadow-lg dark:hover:shadow-gray-800 transition-shadow duration-200;
 }

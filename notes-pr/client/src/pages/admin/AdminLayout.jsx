@@ -14,13 +14,13 @@ const AdminLayout = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen theme-bg">
             {/* Sidebar for desktop */}
             <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
-                <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
+                <div className="flex-1 flex flex-col min-h-0 theme-sidebar">
                     <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                         <div className="flex items-center flex-shrink-0 px-4">
-                            <h1 className="text-white text-2xl font-bold">Admin Panel</h1>
+                            <h1 className="theme-text text-2xl font-bold">Admin Panel</h1>
                         </div>
                         <nav className="mt-5 flex-1 px-2 space-y-1">
                             {menuItems.map((item) => (
@@ -29,9 +29,9 @@ const AdminLayout = () => {
                                     to={item.path}
                                     className={`${
                                         location.pathname === item.path
-                                            ? 'bg-gray-900 text-white'
-                                            : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                                    } group flex items-center px-2 py-2 text-sm font-medium rounded-md`}
+                                            ? 'theme-active-link'
+                                            : 'theme-link'
+                                    } group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors`}
                                 >
                                     <span className="mr-3">{item.icon}</span>
                                     {item.name}
@@ -43,12 +43,12 @@ const AdminLayout = () => {
             </div>
 
             {/* Mobile header */}
-            <div className="md:hidden bg-gray-800 text-white">
+            <div className="md:hidden theme-sidebar">
                 <div className="flex items-center justify-between h-16 px-4">
-                    <h1 className="text-xl font-bold">Admin Panel</h1>
+                    <h1 className="text-xl font-bold theme-text">Admin Panel</h1>
                     <button
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                        className="p-2 rounded-md hover:bg-gray-700"
+                        className="p-2 rounded-md theme-button-outline"
                     >
                         {isSidebarOpen ? (
                             <XMarkIcon className="h-6 w-6" />
@@ -62,13 +62,13 @@ const AdminLayout = () => {
             {/* Mobile sidebar */}
             {isSidebarOpen && (
                 <div className="md:hidden fixed inset-0 z-40">
-                    <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setIsSidebarOpen(false)} />
-                    <div className="fixed inset-y-0 left-0 flex flex-col w-64 bg-gray-800">
-                        <div className="flex items-center justify-between h-16 px-4 bg-gray-900">
-                            <h1 className="text-white text-xl font-bold">Admin Panel</h1>
+                    <div className="fixed inset-0 bg-black bg-opacity-75" onClick={() => setIsSidebarOpen(false)} />
+                    <div className="fixed inset-y-0 left-0 flex flex-col w-64 theme-sidebar">
+                        <div className="flex items-center justify-between h-16 px-4 theme-sidebar-header">
+                            <h1 className="text-xl font-bold theme-text">Admin Panel</h1>
                             <button
                                 onClick={() => setIsSidebarOpen(false)}
-                                className="text-gray-300 hover:text-white"
+                                className="theme-text hover:text-gray-300"
                             >
                                 <XMarkIcon className="h-6 w-6" />
                             </button>
@@ -81,9 +81,9 @@ const AdminLayout = () => {
                                     onClick={() => setIsSidebarOpen(false)}
                                     className={`${
                                         location.pathname === item.path
-                                            ? 'bg-gray-900 text-white'
-                                            : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                                    } group flex items-center px-2 py-2 text-base font-medium rounded-md`}
+                                            ? 'theme-active-link'
+                                            : 'theme-link'
+                                    } group flex items-center px-2 py-2 text-base font-medium rounded-md transition-colors`}
                                 >
                                     <span className="mr-3">{item.icon}</span>
                                     {item.name}

@@ -80,7 +80,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
-                                            className="mt-1 ps-2 block w-full border-blue-400 rounded-md theme-input focus:border-blue-500 focus:ring-blue-500"
+                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-sky-500 focus:ring-sky-500"
                                         />
                                     </div>
 
@@ -94,7 +94,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
-                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-blue-500 focus:ring-blue-500"
+                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-sky-500 focus:ring-sky-500"
                                         />
                                     </div>
 
@@ -108,7 +108,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
                                             value={formData.password}
                                             onChange={handleChange}
                                             required
-                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-blue-500 focus:ring-blue-500"
+                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-sky-500 focus:ring-sky-500"
                                         />
                                     </div>
 
@@ -120,7 +120,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
                                             name="role"
                                             value={formData.role}
                                             onChange={handleChange}
-                                            className="mt-1 block w-full rounded-md theme-input focus:border-blue-500 focus:ring-blue-500"
+                                            className="mt-1 block w-full rounded-md theme-input focus:border-sky-500 focus:ring-sky-500"
                                         >
                                             <option value="user">User</option>
                                             <option value="admin">Admin</option>
