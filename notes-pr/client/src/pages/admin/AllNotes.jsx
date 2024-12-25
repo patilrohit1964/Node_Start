@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useGetAllNotesQuery } from '../../features/api/adminApi';
 import moment from 'moment';
 import { motion } from 'framer-motion';
@@ -6,9 +6,12 @@ import { Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const AllNotes = () => {
-    const { data: notes, isLoading, error } = useGetAllNotesQuery();
-    console.log(notes?.notes)
 
+    const { data: notes, isLoading, error, refetch } = useGetAllNotesQuery();
+
+    useEffect(() => {
+        refetch();
+    }, []);
 
     if (isLoading) {
         return (
@@ -25,6 +28,7 @@ const AllNotes = () => {
             </div>
         );
     }
+
 
     return (
         <div className="theme-bg p-6">

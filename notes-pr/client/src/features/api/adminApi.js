@@ -45,7 +45,7 @@ export const adminApi = createApi({
         url: "/api/admin/all-notes",
         method: "GET",
       }),
-      invalidatesTags: ["AdminNotes"],
+      providesTags: ["AdminNotes"],
     }),
   }),
 });
