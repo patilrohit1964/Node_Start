@@ -36,7 +36,7 @@ export default function SignUp() {
                             <div className="card-body p-4">
                                 <div className="row justify-content-center">
                                     <div className="col-lg-6">
-                                        <h2 className="text-center fw-bold mb-3">Sign Up</h2>
+                                        <h2 className="text-center fw-bold mb-3 dark:text-white">Sign Up</h2>
                                         <form onSubmit={handleSubmit}>
                                             <div className="mb-3">
                                                 <input
@@ -77,7 +77,7 @@ export default function SignUp() {
                                                 </button>
                                             </div>
 
-                                            <div className="text-center mt-3">
+                                            <div className="text-center mt-3 dark:text-white">
                                                 <p>
                                                     Already have an account?{" "}
                                                     <Link to="/login">Login</Link>

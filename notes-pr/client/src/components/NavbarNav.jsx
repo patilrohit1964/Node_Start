@@ -230,24 +230,12 @@ function NavbarNav() {
                                     </button>
                                 </div>
                             ) : (
-                                <div className="pt-4 border-t border-gray-700 space-y-4">
-                                    <Link
-                                        to="/login"
-                                        className="block w-full "
-                                        onClick={closeOffcanvas}
-                                    >
-                                        <Button variant="outline-light" className="w-full">
-                                            Login
-                                        </Button>
+                                <div className="flex items-start flex-col justify-between mt-0 h-20">
+                                    <Link to="/login" className="w-full no-underline text-black">
+                                        Login
                                     </Link>
-                                    <Link
-                                        to="/register"
-                                        className="block w-full"
-                                        onClick={closeOffcanvas}
-                                    >
-                                        <Button variant="outline-light" className="w-full">
-                                            Register
-                                        </Button>
+                                    <Link to="/register" className="w-full no-underline text-black">
+                                        Register
                                     </Link>
                                 </div>
                             )}
