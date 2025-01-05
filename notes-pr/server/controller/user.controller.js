@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const createOtp = require("../utils/otpGenerator");
 const sendToken = require("../utils/sendToken");
 const bcrypt = require("bcryptjs");
 exports.userData = async (req, res) => {
@@ -17,6 +18,7 @@ exports.userData = async (req, res) => {
     name,
   });
 
+  createOtp(user);
   sendToken(res, user, `Welcome ${user?.name}`);
 };
 
