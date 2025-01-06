@@ -14,7 +14,8 @@ export default function SignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await registerUser({ name, email, password });
+        navigate("/verify-otp");
+        // await registerUser({ name, email, password });
     };
 
     useEffect(() => {

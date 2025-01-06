@@ -3,6 +3,7 @@ const createOtp = require("../utils/otpGenerator");
 const sendMail = require("../utils/sendEmail");
 const sendToken = require("../utils/sendToken");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 exports.userData = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -23,8 +24,30 @@ exports.userData = async (req, res) => {
     __dirname + "/views/verifyOtp.ejs",
     { otp, name }
   );
-  sendMail(email, htmlTemplate);
-  res.render("verifyOtp.ejs")
+  const emailResult = await sendMail(email, htmlTemplate);
+  if (emailResult) {
+    res.status(200).cookie("verifyToken", token).json({
+      message: "Otp Send On Email Successfuly",
+    });
+  } else {
+    return res.status(400).json({
+      success: false,
+      message: "Failed to Send Otp",
+    });
+  }
+};
+
+exports.otpVerifier = async (req, res) => {
+  const { otp } = req.body;
+  const { verifyToken } = req.cookies;
+  if (!otp) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid OTP",
+    });
+  }
+  const decoded = jwt.verify(token,process.env.JWT_SECRET);
+  console.log(decoded)
 };
 
 exports.loginUser = async (req, res) => {

@@ -15,6 +15,7 @@ import AdminLayout from './pages/admin/AdminLayout'
 import AllUsers from './pages/admin/AllUsers'
 import Dashboard from './pages/admin/Dashboard'
 import AllNotes from './pages/admin/AllNotes'
+import Otp from './pages/Otp'
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<SignUp />} />
+            <Route path='/verify-otp' element={<Otp />} />
 
             {/* Admin Routes */}
             <Route element={<AdminRoute />}>
