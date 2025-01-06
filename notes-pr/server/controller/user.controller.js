@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const createOtp = require("../utils/otpGenerator");
+const sendMail = require("../utils/sendEmail");
 const sendToken = require("../utils/sendToken");
 const bcrypt = require("bcryptjs");
 exports.userData = async (req, res) => {
@@ -11,15 +12,19 @@ exports.userData = async (req, res) => {
       message: "All fields are required",
     });
   }
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await User.create({
-    email,
-    password: hashedPassword,
-    name,
-  });
-
-  createOtp(user);
-  sendToken(res, user, `Welcome ${user?.name}`);
+  // const hashedPassword = await bcrypt.hash(password, 10);
+  // const user = await User.create({
+  //   email,
+  //   password: hashedPassword,
+  //   name,
+  // });
+  const { otp, token } = createOtp({ name, email, password });
+  const htmlTemplate = await ejs.renderFile(
+    __dirname + "/views/verifyOtp.ejs",
+    { otp, name }
+  );
+  sendMail(email, htmlTemplate);
+  res.render("verifyOtp.ejs")
 };
 
 exports.loginUser = async (req, res) => {

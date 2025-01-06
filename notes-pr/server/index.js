@@ -45,18 +45,18 @@ app.get("/tp", async (req, res) => {
     password: "password",
     name: "chetan",
   };
-  const { otp, token } = createOtp(userInfo);
-  const htmlTemplate = await ejs.renderFile(
-    __dirname + "/views/verifyOtp.ejs",
-    { otp, name: userInfo.name }
-  );
-  const mailchecker = await sendMail("adsfsdf", htmlTemplate);
-  if (mailchecker) {
-    console.log(mailchecker);
-  } else {
-    console.log("Error sending email");
-  }
-  res.send(htmlTemplate);
+  // const { otp, token } = createOtp(userInfo);
+  // const htmlTemplate = await ejs.renderFile(
+  //   __dirname + "/views/verifyOtp.ejs",
+  //   { otp, name: userInfo.name }
+  // );
+  // const mailchecker = await sendMail("adsfsdf", htmlTemplate);
+  // if (mailchecker) {
+  //   console.log(mailchecker);
+  // } else {
+  //   console.log("Error sending email");
+  // }
+  res.render("verifyOtp.ejs");
 });
 
 app.listen(PORT, () => {
