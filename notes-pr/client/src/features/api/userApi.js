@@ -75,6 +75,13 @@ const userApi = createApi({
       },
       invalidatesTags: ["User"],
     }),
+    otpVerify: builder.mutation({
+      query: (otp) => ({
+        url: "/verify-otp",
+        method: "POST",
+        body: { otp },
+      }),
+    }),
   }),
 });
 
@@ -83,6 +90,7 @@ export const {
   useLoginUserMutation,
   useLogOutUserMutation,
   useUpdateProfileMutation,
+  useOtpVerifyMutation,
 } = userApi;
 
 export default userApi;

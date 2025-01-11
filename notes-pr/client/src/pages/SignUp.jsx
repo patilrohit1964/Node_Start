@@ -1,7 +1,6 @@
-import { Alert, Button, Spinner } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Spinner } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useRegisterUserMutation } from "../features/api/userApi";
 export default function SignUp() {
@@ -11,22 +10,22 @@ export default function SignUp() {
     const navigate = useNavigate();
 
     const [registerUser, { isLoading, error, isError, isSuccess, data }] = useRegisterUserMutation()
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        navigate("/verify-otp");
-        // await registerUser({ name, email, password });
+
+        const response = await registerUser({ name, email, password });
+
+        // Check if the mutation was successful before navigating
+        if (response?.data?.success) { // Assuming the server response includes a "success" field
+            navigate("/verify-otp");
+            toast.success("Registration successful. Please check your email for verification.");
+        } else {
+            toast.error(response?.data?.message || "Registration failed");
+            console.error("Error during registration:", response?.error || "Unknown error");
+            // Optionally, handle the error state in your UI
+        }
     };
 
-    useEffect(() => {
-        if (isSuccess) {
-            toast.success(data?.message || "User registered successfully")
-            navigate("/");
-        }
-        if (error) {
-            toast.error(error?.data?.message || "Something went wrong")
-        }
-    }, [isSuccess, isError, error])
 
     return (
         <section style={{ backgroundColor: "#eee", minHeight: "100vh" }}>

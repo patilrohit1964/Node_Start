@@ -4,6 +4,9 @@ const sendMail = require("../utils/sendEmail");
 const sendToken = require("../utils/sendToken");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const ejs = require("ejs");
+const path = require("path");
+
 exports.userData = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -13,26 +16,40 @@ exports.userData = async (req, res) => {
       message: "All fields are required",
     });
   }
-  // const hashedPassword = await bcrypt.hash(password, 10);
-  // const user = await User.create({
-  //   email,
-  //   password: hashedPassword,
-  //   name,
-  // });
-  const { otp, token } = createOtp({ name, email, password });
-  const htmlTemplate = await ejs.renderFile(
-    __dirname + "/views/verifyOtp.ejs",
-    { otp, name }
-  );
-  const emailResult = await sendMail(email, htmlTemplate);
-  if (emailResult) {
-    res.status(200).cookie("verifyToken", token).json({
-      message: "Otp Send On Email Successfuly",
-    });
-  } else {
-    return res.status(400).json({
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    // const user = await User.create({
+    //   email,
+    //   password: hashedPassword,
+    //   name,
+    // });
+    const { otp, token } = createOtp({ name, email, password: hashedPassword });
+
+    const ejsFilePath = path.join(__dirname, "../views/verifyOtp.ejs");
+
+    const htmlTemplate = await ejs.renderFile(ejsFilePath, { otp, name });
+
+    const emailResult = await sendMail(email, htmlTemplate);
+
+    if (emailResult) {
+      res
+        .status(200)
+        .cookie("verifyToken", token, { httpOnly: true, secure: true })
+        .json({
+          success: true,
+          message: "Otp Send On Email Successfuly",
+        });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to send OTP. Please try again later.",
+      });
+    }
+  } catch (error) {
+    console.error("Error in userData controller:", error);
+    return res.status(500).json({
       success: false,
-      message: "Failed to Send Otp",
+      message: "An unexpected error occurred.",
     });
   }
 };
@@ -46,8 +63,18 @@ exports.otpVerifier = async (req, res) => {
       message: "Invalid OTP",
     });
   }
-  const decoded = jwt.verify(token,process.env.JWT_SECRET);
-  console.log(decoded)
+
+  const decoded = jwt.verify(verifyToken, process.env.JWT_SECRET);
+  if (decoded.otp !== otp) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid OTP",
+    });
+  }
+  await User.create(decoded.userInfo);
+  res.status(200).json({
+    message: "Otp Verified",
+  });
 };
 
 exports.loginUser = async (req, res) => {
