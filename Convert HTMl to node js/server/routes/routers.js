@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const productController = require('../controllers/productController');
-const contactController = require('../controllers/contactController');
+const productController = require('../controllers/product.controller');
+const contactController = require('../controllers/contact.controller');
 
 router.get('/', (req, res) => {
   res.render('home');

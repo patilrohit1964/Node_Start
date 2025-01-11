@@ -1,4 +1,4 @@
-const Contact = require("../models/contact");
+const Contact = require("../models/contact.model");
 
 exports.getContact = (req, res) => {
   res.render("contact");

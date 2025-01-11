@@ -1,23 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Contact</title>
-</head>
-<body>
-  <header><h1>Contact Us</h1></header>
-  <main>
-    <form action="/contact" method="POST">
-      <label for="name">Name:</label>
-      <input type="text" name="name" id="name" required>
-      <label for="email">Email:</label>
-      <input type="email" name="email" id="email" required>
-      <label for="message">Message:</label>
-      <textarea name="message" id="message" required></textarea>
-      <button type="submit">Submit</button>
-    </form>
-    <a href="/">Home</a> | <a href="/about">About</a> | <a href="/products">Products</a>
-  </main>
-  <footer><p>Footer content here</p></footer>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact</title>
+    <!-- AOS CSS for animations -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS for styling -->
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f5f5;
+        color: #333;
+      }
+
+      header {
+        background-color: #28a745;
+        color: white;
+        text-align: center;
+        padding: 80px 0;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      main {
+        max-width: 800px;
+        margin: 50px auto 140px auto;
+        padding: 30px;
+        background-color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        animation: slideIn 1s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #555;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 20px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      input:focus,
+      textarea:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
+        outline: none;
+      }
+
+      button {
+        background-color: #28a745;
+        color: white;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+      }
+
+      button:hover {
+        background-color: #218838;
+        transform: scale(1.05);
+      }
+
+      a {
+        text-decoration: none;
+        color: #28a745;
+        font-weight: bold;
+        margin: 10px;
+        padding: 8px 20px;
+        border: 2px solid #28a745;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+      }
+
+      a:hover {
+        background-color: #28a745;
+        color: white;
+        transform: scale(1.05);
+      }
+
+      footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        font-size: 0.9rem;
+        animation: fadeIn 1s ease-out;
+      }
+
+      footer a {
+        color: #fff;
+        text-decoration: none;
+      }
+      footer p{
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <header data-aos="fade-down">
+      <h1>Contact Us</h1>
+    </header>
+
+    <main data-aos="fade-up">
+      <form action="/contact" method="POST" data-aos="zoom-in">
+        <div>
+          <label for="name">Name:</label>
+          <input type="text" name="name" id="name" required />
+        </div>
+        <div>
+          <label for="email">Email:</label>
+          <input type="email" name="email" id="email" required />
+        </div>
+        <div>
+          <label for="message">Message:</label>
+          <textarea name="message" id="message" required></textarea>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </main>
+
+    <footer data-aos="fade-up">
+      <div class="nav-bar">
+        <a href="/about" data-aos="zoom-in" data-aos-delay="200">About Us</a> |
+        <a href="/contact" data-aos="zoom-in" data-aos-delay="400">Contact</a> |
+        <a href="/products" data-aos="zoom-in" data-aos-delay="600">Products</a>
+      </div>
+      <p>Footer content here | © 2025 Our Website</p>
+    </footer>
+
+    <!-- AOS JS for animations -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+      // Initialize AOS
+      AOS.init({
+        duration: 1200, // Animation duration in milliseconds
+        once: true, // Animation occurs once
+      });
+    </script>
+  </body>
 </html>
