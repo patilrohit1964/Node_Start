@@ -13,7 +13,7 @@ const validator = require("../middlewares/validator");
 
 const router = express.Router();
 
-router.post("/signup", registerUser);
+router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/", getAllUsers);
 router.get("/:id", getUserById);

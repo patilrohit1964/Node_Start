@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
+import Private from './components/Private';
 
 const App = () => {
   useEffect(() => {
@@ -18,8 +19,10 @@ const App = () => {
       <CustomNavbar />
       <div className="container mt-4">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          <Route element={<Private />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+          </Route>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
         </Routes>

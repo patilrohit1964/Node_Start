@@ -12,24 +12,18 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:9090/user/login', formData, {
+            const result = await axios.post('http://localhost:9090/user/login', formData, {
                 withCredentials: true
-            });
-            console.log(response);
-            // Check for successful response
-            if (response.status === 200 && response.statusText === "Ok") {
-                alert("Login successful!");
-                // localStorage.setItem("user", JSON.stringify(response.data.user)); // Save user data or token
-                navigate("/"); // Navigate to the home page
-                // Reset the form state
-                setFormData({
-                    username: '',
-                    password: '',
-                });
+            })
+            if (result.status === 200) {
+                alert("Login Successful!");
+                navigate('/');
+                setFormData({ username: '', password: '' });
             } else {
-                alert("Login failed. Please check your credentials.");
+                alert("Invalid Credentials!");
             }
-        } catch (err) {
+        }
+        catch (err) {
             // Handle errors gracefully
             console.error("Login error:", err);
             alert("Error: " + (err.message));

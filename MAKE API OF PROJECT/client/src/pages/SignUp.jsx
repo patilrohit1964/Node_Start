@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-
+import { useNavigate } from "react-router-dom"
 const SignUp = () => {
     const [formData, setFormData] = useState({
         username: '',
@@ -14,7 +14,7 @@ const SignUp = () => {
 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
-
+    const navigate = useNavigate()
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -30,12 +30,13 @@ const SignUp = () => {
 
         setError('');
         try {
-            const response = await axios.post('http://localhost:9090/user/signup', formData, {
-                withCredentials: true,
-            });
-            
-            if (response.status == 200) {
+            const result = await axios.post('http://localhost:9090/user/register', formData, {
+                withCredentials: true
+            })
+            if (result.status == 201) {
                 setSuccess(true);
+                alert("register successfully");
+                localStorage.setItem("user", JSON.stringify(result.data.user))
                 setFormData({
                     username: '',
                     email: '',
@@ -44,9 +45,8 @@ const SignUp = () => {
                     location: '',
                     password: '',
                     confirmPassword: '',
-                })
-            } else {
-                setError(errorMsg.message || 'Registration failed.');
+                });
+                navigate("/")
             }
         } catch (err) {
             setError('Server error. Please try again later.');
