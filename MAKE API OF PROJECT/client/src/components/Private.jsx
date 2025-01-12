@@ -5,9 +5,9 @@ const Private = ({ children }) => {
     const user = localStorage.getItem('user');
 
     if (user) {
-        return <Outlet /> || children
+        return <Outlet /> || children;
     }
-    return (<Navigate to="/login" />)
+    return (<Navigate to="/login" />);
 }
 
 export default Private

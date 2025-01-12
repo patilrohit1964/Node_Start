@@ -55,28 +55,52 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username });
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(401).json({ message: "Invalid credentials" });
-  }
-  const token = jwt.sign(
-    { id: user._id, role: user.role },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "1h",
+  try {
+    const { username, password } = req.body;
+
+    // Find the user by username
+    const user = await User.findOne({ username });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: "Invalid credentials" });
     }
-  );
-  const logData = `${new Date().toISOString()} - Username: ${
-    user.username
-  }, Role: ${user.role}\n`;
-  fs.appendFileSync("log.txt", logData);
-  res.json({ message: "Login successful", token, user });
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    // Log the login attempt
+    const logData = `${new Date().toISOString()} - Username: ${
+      user.username
+    }, Role: ${user.role}\n`;
+    fs.appendFileSync("log.txt", logData);
+
+    // Exclude the password from the response
+    const { password: _, ...userWithoutPassword } = user.toObject();
+
+    // Send response
+    res.status(200).cookie("token", token).json({
+      message: "Login successful",
+      token,
+      user: userWithoutPassword,
+    });
+  } catch (error) {
+    console.error("Error during login:", error);
+    res.status(500).json({ message: "An error occurred during login" });
+  }
 };
 
 const getAllUsers = async (req, res) => {
   const users = await User.find();
-  res.json(users);
+  res.status(200).json({
+    message: "User fetch succesfully",
+    users,
+    success: true,
+  });
 };
 
 const getUserById = async (req, res) => {
@@ -88,13 +112,18 @@ const getUserById = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
+  // const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+  //   new: true,
+  // });
+  // if (!updatedUser) {
+  //   return res.status(404).json({ message: "User not found" });
+  // }
+
+  res.status(200).json({
+    // updatedUser,
+    message: "User updated successfully",
+    success: true,
   });
-  if (!updatedUser) {
-    return res.status(404).json({ message: "User not found" });
-  }
-  res.json(updatedUser);
 };
 
 const deleteUser = async (req, res) => {

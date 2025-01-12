@@ -17,8 +17,9 @@ const Login = () => {
             })
             if (result.status === 200) {
                 alert("Login Successful!");
-                navigate('/');
+                localStorage.setItem("user", JSON.stringify(result.data.user))
                 setFormData({ username: '', password: '' });
+                navigate('/');
             } else {
                 alert("Invalid Credentials!");
             }

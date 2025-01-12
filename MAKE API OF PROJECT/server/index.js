@@ -1,8 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const connectWithRetry = require("./config/db");
+const cookieParser = require("cookie-parser");
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     origin: [
@@ -12,7 +14,7 @@ app.use(
       "http://localhost:5175",
       "http://localhost:5176",
     ],
-    credentials:true
+    credentials: true,
   })
 );
 require("dotenv").config();

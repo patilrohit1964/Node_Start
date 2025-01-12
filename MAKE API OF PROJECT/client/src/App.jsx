@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import AOS from 'aos';
+import DetailTable from './components/DetailTable.jsx';
 import CustomNavbar from './components/Navbar';
-import Home from './pages/Home';
-import About from './pages/About';
-import SignUp from './pages/SignUp';
-import Login from './pages/Login';
 import Private from './components/Private';
-
+import About from './pages/About';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 const App = () => {
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -22,6 +22,7 @@ const App = () => {
           <Route element={<Private />}>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/table" element={<DetailTable />} />
           </Route>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
