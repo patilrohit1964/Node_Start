@@ -12,7 +12,9 @@ const DetailTable = () => {
 
     // Fetch all users
     const fetchUsers = async () => {
-        const { data } = await axios.get('http://localhost:9090/user/');
+        const { data } = await axios.get('http://localhost:9090/user/', {
+            withCredentials: true,
+        });
         setUsers(data.users);
     };
 
@@ -22,14 +24,18 @@ const DetailTable = () => {
 
     // Delete user
     const deleteUser = async (id) => {
-        await axios.delete(`http://localhost:9090/user/${id}`);
+        await axios.delete(`http://localhost:9090/user/${id}`, {
+            withCredentials: true,
+        });
         alert('User deleted successfully');
         fetchUsers();
     };
 
     // Update user
     const updateUser = async (id, updatedData) => {
-        await axios.put(`http://localhost:9090/user/${id}`, updatedData);
+        await axios.put(`http://localhost:9090/user/${id}`, updatedData, {
+            withCredentials: true,
+        });
         alert('User updated successfully');
         fetchUsers();
         setModalShow(false);

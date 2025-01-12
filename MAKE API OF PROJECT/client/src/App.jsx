@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import AOS from 'aos';
-import DetailTable from './components/DetailTable.jsx';
 import CustomNavbar from './components/Navbar';
 import Private from './components/Private';
 import About from './pages/About';
+import DetailTable from './pages/DetailTable.jsx';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
