@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
 const SignUp = () => {
@@ -5,138 +6,224 @@ const SignUp = () => {
         username: '',
         email: '',
         dob: '',
-        role: '',
+        role: 'Explorer',
         location: '',
         password: '',
         confirmPassword: '',
     });
 
     const [error, setError] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
+        const { password, confirmPassword } = formData;
 
-        if (formData.password !== formData.confirmPassword) {
+        if (password !== confirmPassword) {
             setError('Passwords do not match!');
             return;
         }
-        if (formData.password.length < 8) {
-            setError('Password must be at least 8 characters long!');
-            return;
-        }
 
-        setIsSubmitting(true);
-
-        // Simulate form submission success
-        setTimeout(() => {
-            alert('User registered successfully!');
-            setIsSubmitting(false);
-            setFormData({
-                username: '',
-                email: '',
-                dob: '',
-                role: '',
-                location: '',
-                password: '',
-                confirmPassword: '',
+        setError('');
+        try {
+            const response = await axios.post('http://localhost:9090/user/signup', formData, {
+                withCredentials: true,
             });
-        }, 2000);
+            
+            if (response.status == 200) {
+                setSuccess(true);
+                setFormData({
+                    username: '',
+                    email: '',
+                    dob: '',
+                    role: 'Explorer',
+                    location: '',
+                    password: '',
+                    confirmPassword: '',
+                })
+            } else {
+                setError(errorMsg.message || 'Registration failed.');
+            }
+        } catch (err) {
+            setError('Server error. Please try again later.');
+        }
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center vh-100">
-            <form onSubmit={handleSubmit} className="mt-5" data-aos="fade-up" style={{ maxWidth: '500px', width: '100%' }}>
-                <h1 className="text-center">Sign Up</h1>
-                {error && <div className="alert alert-danger">{error}</div>}
-                <div className="form-group mb-3">
-                    <input
-                        name="username"
-                        type="text"
-                        placeholder="Username"
-                        className="form-control"
-                        onChange={handleChange}
-                        value={formData.username}
-                        required
-                    />
+        <div className="container mt-5">
+            <div className="row justify-content-center mt-5">
+                <div
+                    className="col-md-6 mt-5"
+                    style={{ animation: 'fadeIn 1s ease-in-out' }}
+                >
+                    <div className="card shadow-lg">
+                        <div className="card-header text-center bg-primary text-white">
+                            <h4>
+                                <i className="bi bi-person-circle"></i> Register
+                            </h4>
+                        </div>
+                        <div className="card-body">
+                            {/* Success and Error Messages */}
+                            {success && (
+                                <div
+                                    className="alert alert-success alert-dismissible fade show"
+                                    role="alert"
+                                >
+                                    <strong>Success!</strong> Registration completed successfully.
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        data-bs-dismiss="alert"
+                                        aria-label="Close"
+                                    ></button>
+                                </div>
+                            )}
+                            {error && (
+                                <div
+                                    className="alert alert-danger alert-dismissible fade show"
+                                    role="alert"
+                                >
+                                    <strong>Error:</strong> {error}
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        data-bs-dismiss="alert"
+                                        aria-label="Close"
+                                    ></button>
+                                </div>
+                            )}
+
+                            {/* Form */}
+                            <form
+                                onSubmit={handleSubmit}
+                                className="needs-validation"
+                                noValidate
+                            >
+                                <div className="mb-3">
+                                    <label htmlFor="username" className="form-label">
+                                        Username
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="username"
+                                        name="username"
+                                        value={formData.username}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ animation: 'slideInLeft 0.8s' }}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="email" className="form-label">
+                                        Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        className="form-control"
+                                        id="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ animation: 'slideInRight 0.8s' }}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="dob" className="form-label">
+                                        Date of Birth
+                                    </label>
+                                    <input
+                                        type="date"
+                                        className="form-control"
+                                        id="dob"
+                                        name="dob"
+                                        value={formData.dob}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ animation: 'slideInLeft 0.8s' }}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="role" className="form-label">
+                                        Role
+                                    </label>
+                                    <select
+                                        className="form-select"
+                                        id="role"
+                                        name="role"
+                                        value={formData.role}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ animation: 'slideInRight 0.8s' }}
+                                    >
+                                        <option value="Admin">Admin</option>
+                                        <option value="Explorer">Explorer</option>
+                                    </select>
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="location" className="form-label">
+                                        Location
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="location"
+                                        name="location"
+                                        value={formData.location}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ animation: 'slideInLeft 0.8s' }}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="password" className="form-label">
+                                        Password
+                                    </label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="password"
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ animation: 'slideInRight 0.8s' }}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="confirmPassword" className="form-label">
+                                        Confirm Password
+                                    </label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="confirmPassword"
+                                        name="confirmPassword"
+                                        value={formData.confirmPassword}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ animation: 'slideInLeft 0.8s' }}
+                                    />
+                                </div>
+                                <div className="d-grid">
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary btn-block"
+                                        style={{ animation: 'pulse 1.5s infinite' }}
+                                    >
+                                        Register
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div className="form-group mb-3">
-                    <input
-                        name="email"
-                        type="email"
-                        placeholder="Email"
-                        className="form-control"
-                        onChange={handleChange}
-                        value={formData.email}
-                        required
-                    />
-                </div>
-                <div className="form-group mb-3">
-                    <input
-                        name="dob"
-                        type="date"
-                        className="form-control"
-                        onChange={handleChange}
-                        value={formData.dob}
-                        required
-                    />
-                </div>
-                <div className="form-group mb-3">
-                    <select
-                        name="role"
-                        className="form-control"
-                        onChange={handleChange}
-                        value={formData.role}
-                        required
-                    >
-                        <option value="">Select Role</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Explorer">Explorer</option>
-                    </select>
-                </div>
-                <div className="form-group mb-3">
-                    <input
-                        name="location"
-                        type="text"
-                        placeholder="Location"
-                        className="form-control"
-                        onChange={handleChange}
-                        value={formData.location}
-                        required
-                    />
-                </div>
-                <div className="form-group mb-3">
-                    <input
-                        name="password"
-                        type="password"
-                        placeholder="Password"
-                        className="form-control"
-                        onChange={handleChange}
-                        value={formData.password}
-                        required
-                    />
-                </div>
-                <div className="form-group mb-3">
-                    <input
-                        name="confirmPassword"
-                        type="password"
-                        placeholder="Confirm Password"
-                        className="form-control"
-                        onChange={handleChange}
-                        value={formData.confirmPassword}
-                        required
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary w-100" disabled={isSubmitting}>
-                    {isSubmitting ? 'Registering...' : 'Sign Up'}
-                </button>
-            </form>
+            </div>
         </div>
     );
 };

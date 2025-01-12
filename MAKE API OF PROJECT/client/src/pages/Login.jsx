@@ -1,5 +1,6 @@
+import axios from "axios";
 import React, { useState } from 'react';
-
+import { useNavigate } from "react-router-dom";
 const Login = () => {
     const [formData, setFormData] = useState({ username: '', password: '' });
 
@@ -7,11 +8,34 @@ const Login = () => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-
-    const handleSubmit = (e) => {
+    const navigate = useNavigate()
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        alert('Login successful!');
+        try {
+            const response = await axios.post('http://localhost:9090/user/login', formData, {
+                withCredentials: true
+            });
+            console.log(response);
+            // Check for successful response
+            if (response.status === 200 && response.statusText === "Ok") {
+                alert("Login successful!");
+                // localStorage.setItem("user", JSON.stringify(response.data.user)); // Save user data or token
+                navigate("/"); // Navigate to the home page
+                // Reset the form state
+                setFormData({
+                    username: '',
+                    password: '',
+                });
+            } else {
+                alert("Login failed. Please check your credentials.");
+            }
+        } catch (err) {
+            // Handle errors gracefully
+            console.error("Login error:", err);
+            alert("Error: " + (err.message));
+        }
     };
+
 
     return (
         <div className="d-flex justify-content-center align-items-center vh-100">

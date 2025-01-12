@@ -1,25 +1,53 @@
 const User = require("../models/user.model");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 
 const registerUser = async (req, res) => {
-  const { username, email, dob, role, location, password, confirmPassword } =
-    req.body;
-  if (password !== confirmPassword) {
-    return res.status(400).json({ message: "Passwords do not match" });
+  try {
+    const { username, email, dob, role, location, password, confirmPassword } =
+      req.body;
+
+    // Check if all required fields are provided
+    if (
+      !username ||
+      !email ||
+      !dob ||
+      !role ||
+      !location ||
+      !password ||
+      !confirmPassword
+    ) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user instance
+    const newUser = new User({
+      username,
+      email,
+      dob,
+      role,
+      location,
+      password: hashedPassword,
+    });
+
+    // Save the user to the database
+    await newUser.save();
+
+    // Send a success response
+    res.status(201).json({ message: "User registered successfully", newUser });
+  } catch (error) {
+    console.error("Error registering user:", error);
+    res.status(500).json({ message: "An error occurred during registration" });
   }
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = new User({
-    username,
-    email,
-    dob,
-    role,
-    location,
-    password: hashedPassword,
-  });
-  await newUser.save();
-  res.status(201).json({ message: "User registered successfully" });
 };
 
 const loginUser = async (req, res) => {
@@ -28,14 +56,18 @@ const loginUser = async (req, res) => {
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
-  const token = jwt.sign({ id: user._id, role: user.role }, "secretKey", {
-    expiresIn: "1h",
-  });
+  const token = jwt.sign(
+    { id: user._id, role: user.role },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
   const logData = `${new Date().toISOString()} - Username: ${
     user.username
   }, Role: ${user.role}\n`;
   fs.appendFileSync("log.txt", logData);
-  res.json({ message: "Login successful", token });
+  res.json({ message: "Login successful", token, user });
 };
 
 const getAllUsers = async (req, res) => {
