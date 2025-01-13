@@ -33,7 +33,7 @@ const DetailTable = () => {
 
     // Update user
     const updateUser = async (id, updatedData) => {
-        await axios.put(`http://localhost:9090/user/${id}`, updatedData, {
+        const result = await axios.put(`http://localhost:9090/user/${id}`, updatedData, {
             withCredentials: true,
         });
         alert('User updated successfully');
