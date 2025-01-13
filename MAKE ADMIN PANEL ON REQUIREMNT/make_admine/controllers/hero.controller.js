@@ -1,3 +1,5 @@
+const { readDB, writeDB } = require("../middlewares/addID.middleware");
+
 // 1. Add a new hero
 exports.addHero = (req, res) => {
   try {
