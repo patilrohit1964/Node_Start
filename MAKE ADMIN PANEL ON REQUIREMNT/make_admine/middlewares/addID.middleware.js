@@ -1,5 +1,6 @@
 const path = require("path");
 const DB_FILE = path.join(__dirname, "db.json");
+const fs = require("fs");
 // Add ID middleware
 function addID(req, res, next) {
   const db = JSON.parse(fs.readFileSync(DB_FILE, "utf-8"));
@@ -10,8 +11,14 @@ function addID(req, res, next) {
 }
 
 // Helper function to read and write the database
-function readDB() {
-  return JSON.parse(fs.readFileSync(DB_FILE, "utf-8"));
+async function readDB() {
+  try {
+    const data = await fs.readFile(DB_FILE, "utf-8");
+    console.log(data,"kjasklds");
+    return JSON.parse(data);
+  } catch (err) {
+    throw new Error("Error reading database file");
+  }
 }
 
 function writeDB(data) {

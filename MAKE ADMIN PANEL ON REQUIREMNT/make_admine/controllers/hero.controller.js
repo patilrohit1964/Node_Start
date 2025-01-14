@@ -13,10 +13,11 @@ exports.addHero = (req, res) => {
 };
 
 // 2. Retrieve details of all heroes
-exports.getHeroes = (req, res) => {
+exports.getHeroes = async (req, res) => {
   try {
-    const db = readDB();
-    res.status(200).json(db.heroes);
+    const db = await readDB();
+    console.log(db);
+    res.status(200).send(db.heroes);
   } catch (err) {
     res.status(500).json({ err: "Failed to retrieve heroes" });
   }

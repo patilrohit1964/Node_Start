@@ -10,6 +10,7 @@ const DB_FILE = path.join(__dirname, "db.json");
 
 // Middleware
 app.use(bodyParser.json());
+app.use(express.json());
 app.use("/hero", heroRoutes);
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

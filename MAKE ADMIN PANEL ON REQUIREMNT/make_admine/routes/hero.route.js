@@ -10,7 +10,7 @@ const auth = require("../middlewares/auth.middleware");
 const router = express.Router();
 
 router.route("/add/hero").post(addID, addHero);
-router.route("/heroes").get(getHeroes);
+router.get("/all-hero", getHeroes);
 router.route("/update/villian/:hero_id").patch(auth, updateHero);
 router.route("/delete/hero/:hero_id").delete(auth, addHero);
 
