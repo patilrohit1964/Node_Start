@@ -16,8 +16,7 @@ exports.addHero = (req, res) => {
 exports.getHeroes = async (req, res) => {
   try {
     const db = await readDB();
-    console.log(db);
-    res.status(200).send(db.heroes);
+    res.status(200).send({ message: "Heroes", heroes: db.heroes });
   } catch (err) {
     res.status(500).json({ err: "Failed to retrieve heroes" });
   }
@@ -48,7 +47,6 @@ exports.deleteHero = (req, res) => {
     const { hero_id } = req.params;
     const db = readDB();
     const heroIndex = db.heroes.findIndex((h) => h.id === parseInt(hero_id));
-
     if (heroIndex === -1) {
       return res.status(404).json({ message: "Hero not found" });
     }
