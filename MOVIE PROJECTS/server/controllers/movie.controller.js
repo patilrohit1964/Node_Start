@@ -76,3 +76,41 @@ exports.updateMovie = async (req, res) => {
     });
   }
 };
+
+exports.deleteMovie = async (req, res) => {
+  try {
+    const movie = await Movie.findByIdAndDelete(req.params.id);
+    if (!movie) {
+      return res.status(404).json({
+        message: "Movie not found",
+      });
+    }
+    res.status(200).json({
+      message: "Movie deleted successfully",  
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting movie",
+      error: error.message,
+    });
+  }
+};
+exports.getMovieById = async (req, res) => {
+  try {
+    const movie = await Movie.findById(req.params.id).lean();
+    if (!movie) {
+      return res.status(404).json({
+        message: "Movie not found",
+      });
+    }
+    res.status(200).json({
+      message: "Fetched Movie Successfully",
+      movie,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching movie",
+      error: error.message,
+    });
+  }
+};
