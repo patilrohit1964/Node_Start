@@ -1,6 +1,7 @@
 const validator = require("validator");
 const User = require("../models/user.model");
 const bcryptjs = require("bcryptjs");
+
 exports.registerUser = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
@@ -9,15 +10,19 @@ exports.registerUser = async (req, res) => {
         message: "All fields are required",
       });
     }
-    if (role) {
+    if (role != undefined) {
       return res.status(400).json({
         message: "role is not required for this request",
       });
     }
-    if (!validator.isEmail(email)) {
+    if (typeof email !== "string" || !validator.isEmail(email)) {
       return res.status(400).json({
         message: "Invalid email",
       });
+    }
+    const userExists = await User.findOne({ where: { email } });
+    if (userExists) {
+      return res.status(400).json({ message: "Email already exists" });
     }
     const hashedPassword = await bcryptjs.hash(password, 10);
     const user = await User.create({
