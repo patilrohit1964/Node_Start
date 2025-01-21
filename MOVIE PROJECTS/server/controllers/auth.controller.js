@@ -1,6 +1,7 @@
 const validator = require("validator");
 const User = require("../models/user.model");
 const bcryptjs = require("bcryptjs");
+const sendToken = require("../utils/sendToken");
 
 exports.registerUser = async (req, res) => {
   try {
@@ -26,11 +27,7 @@ exports.registerUser = async (req, res) => {
       email,
       password: hashedPassword,
     });
-    res.status(201).json({
-      message: "User created successfully",
-      user,
-      success: true,
-    });
+    sendToken(user, res, `Welcome ${username}`);
   } catch (error) {
     res.status(500).json({
       message: "Error registering user",
@@ -40,15 +37,29 @@ exports.registerUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({
-      message: "All fields are required",
-    });
-  }
-  if (!validator.isEmail(email)) {
-    return res.status(400).json({
-      message: "Invalid email",
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
+    }
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({
+        message: "Invalid email",
+      });
+    }
+    const isUserExist = await User.findOne({ email });
+    if (!isUserExist) {
+      return res
+        .status(401)
+        .json({ message: "User not found please register first" });
+    }
+    sendToken(isUserExist, res, `Welcome back ${isUserExist.username}`);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error logging in user",
+      error: error.message,
     });
   }
 };

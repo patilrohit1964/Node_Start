@@ -1,5 +1,8 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { USER_URL } from "../utils/constants";
+import { toast } from "react-toastify";
 
 const Login = () => {
 
@@ -12,9 +15,24 @@ const Login = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const { data } = await axios.post(`${USER_URL}/login`, formData, {
+                withCredentials: true,
+            });
+            if (data?.success) {
+                toast.success(data.message || "User logged successfully");
+            }
+            console.log(data)
+            setFormData({
+                email: '',
+                password: ''
+            })
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Login failed");
+            console.error("Login error:", error.response?.data || error.message);
+        }
     }
 
     return (

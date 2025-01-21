@@ -22,7 +22,7 @@ const Register = () => {
             const { data } = await axios.post(`${USER_URL}/register`, formData, {
                 withCredentials: true,
             });
-            if (data.success) {
+            if (data?.success) {
                 toast.success(data.message || "Register Success");
                 setFormData({
                     username: "",
@@ -31,7 +31,7 @@ const Register = () => {
                 })
             }
         } catch (error) {
-            console.error("Registration failed:", error.response?.data || error.message);
+            console.error("Registration failed:", error.response?.data || error?.message);
         }
     };
 

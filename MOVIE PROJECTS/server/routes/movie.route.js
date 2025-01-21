@@ -7,11 +7,14 @@ const {
   updateMovie,
   deleteMovie,
 } = require("../controllers/movie.controller");
+const verifyToken = require("../middleware/verifyToken");
 
 const router = express.Router();
-router.route("/get-movies").get(getMovies);
-router.route("/get-movie/:id").get(getMovieById);
-router.route("/add-movie").post(upload.single("file"), addMovie);
-router.route("/update-movie/:id").put(upload.single("file"), updateMovie);
-router.route("/delete-movie/:id").delete(deleteMovie);
+router.route("/get-movies").get(verifyToken, getMovies);
+router.route("/get-movie/:id").get(verifyToken, getMovieById);
+router.route("/add-movie").post(verifyToken, upload.single("file"), addMovie);
+router
+  .route("/update-movie/:id")
+  .put(verifyToken, upload.single("file"), updateMovie);
+router.route("/delete-movie/:id").delete(verifyToken, deleteMovie);
 module.exports = router;
