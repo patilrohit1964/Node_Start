@@ -1,20 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    })
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        
+    }
+
     return (
         <div className="min-h-screen bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 flex items-center justify-center">
             <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8 animate-fade-in">
                 <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
                     Create an Account
                 </h2>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
                             Email Address
                         </label>
                         <input
                             type="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            name="email"
                             placeholder="Enter your email"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                         />
@@ -25,6 +43,9 @@ const Login = () => {
                         </label>
                         <input
                             type="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            name="password"
                             placeholder="Enter your password"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                         />

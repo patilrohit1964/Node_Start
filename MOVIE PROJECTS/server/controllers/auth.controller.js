@@ -4,17 +4,13 @@ const bcryptjs = require("bcryptjs");
 
 exports.registerUser = async (req, res) => {
   try {
-    const { username, email, password, role } = req.body;
+    const { username, email, password } = req.body;
     if (!username || !email || !password) {
       return res.status(400).json({
         message: "All fields are required",
       });
     }
-    if (role != undefined) {
-      return res.status(400).json({
-        message: "role is not required for this request",
-      });
-    }
+
     if (typeof email !== "string" || !validator.isEmail(email)) {
       return res.status(400).json({
         message: "Invalid email",
@@ -33,6 +29,7 @@ exports.registerUser = async (req, res) => {
     res.status(201).json({
       message: "User created successfully",
       user,
+      success: true,
     });
   } catch (error) {
     res.status(500).json({
