@@ -23,6 +23,8 @@ const Login = () => {
             });
             if (data?.success) {
                 toast.success(data.message || "User logged successfully");
+                localStorage.setItem("user", JSON.stringify(data.user));
+                localStorage.setItem("token", JSON.stringify(data.token));
             }
             console.log(data)
             setFormData({

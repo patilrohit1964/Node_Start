@@ -24,6 +24,8 @@ const Register = () => {
             });
             if (data?.success) {
                 toast.success(data.message || "Register Success");
+                localStorage.setItem("user", JSON.stringify(data.user));
+                localStorage.setItem("token", JSON.stringify(data.token));
                 setFormData({
                     username: "",
                     email: "",
