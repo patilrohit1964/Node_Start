@@ -13,11 +13,22 @@ const MovieForm = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
     const handleFileChange = (e) => {
-        console.log(e.target.files[0]);
+        if (e.target.files[0]) {
+            setFormData({ ...formData, [e.target.name]: e.target.files?.[0] });
+        }
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        const 
+        const convertInForm = new FormData()
+        convertInForm.append("title", formData.title);
+        convertInForm.append("genre", formData.genre);
+        convertInForm.append("description", formData.description);
+        convertInForm.append("image", formData.image);
+        convertInForm.append("release_year", formData.release_year);
+        convertInForm.append("director", formData.director) 
+        convertInForm.forEach((key, value) => {
+            console.log(key, value)
+        })
         // Handle form submission logic here
         console.log(formData, "Form submitted!");
     };
