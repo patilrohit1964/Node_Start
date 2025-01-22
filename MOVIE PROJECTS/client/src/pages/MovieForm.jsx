@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 
 const MovieForm = () => {
+    const [formData, setFormData] = useState({
+        title: "",
+        genre: "",
+        director: "",
+        release_year: "",
+        description: "",
+        image: ""
+    });
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+    const handleFileChange = (e) => {
+        console.log(e.target.files[0]);
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
+        const 
         // Handle form submission logic here
-        console.log("Form submitted!");
+        console.log(formData, "Form submitted!");
     };
 
     return (
@@ -25,6 +40,9 @@ const MovieForm = () => {
                         <input
                             type="text"
                             id="title"
+                            onChange={handleChange}
+                            value={formData.title}
+                            name="title"
                             placeholder="Enter the movie title"
                             className="w-full px-4 py-2 bg-gray-100 rounded-lg shadow focus:outline-none focus:ring-4 focus:ring-indigo-400 transition"
                             required
@@ -42,6 +60,9 @@ const MovieForm = () => {
                         <input
                             type="text"
                             id="genre"
+                            onChange={handleChange}
+                            value={formData.genre}
+                            name="genre"
                             placeholder="Enter the genre"
                             className="w-full px-4 py-2 bg-gray-100 rounded-lg shadow focus:outline-none focus:ring-4 focus:ring-pink-400 transition"
                             required
@@ -59,6 +80,9 @@ const MovieForm = () => {
                         <input
                             type="text"
                             id="director"
+                            onChange={handleChange}
+                            value={formData.director}
+                            name="director"
                             placeholder="Enter the director's name"
                             className="w-full px-4 py-2 bg-gray-100 rounded-lg shadow focus:outline-none focus:ring-4 focus:ring-purple-400 transition"
                             required
@@ -76,10 +100,30 @@ const MovieForm = () => {
                         <input
                             type="number"
                             id="releaseYear"
+                            onChange={handleChange}
+                            value={formData.release_year}
+                            name="release_year"
                             placeholder="Enter the release year"
                             className="w-full px-4 py-2 bg-gray-100 rounded-lg shadow focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
                             required
                             min="1900"
+                        />
+                    </div>
+                    <div>
+                        <label
+                            htmlFor="file"
+                            className="block text-gray-700 font-semibold mb-2"
+                        >
+                            Release Year
+                        </label>
+                        <input
+                            type="file"
+                            id="file"
+                            onChange={handleFileChange}
+                            value={formData.image}
+                            name="file"
+                            placeholder="movie image"
+                            className="w-full px-4 py-2 bg-gray-100 rounded-lg shadow focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
                         />
                     </div>
 
