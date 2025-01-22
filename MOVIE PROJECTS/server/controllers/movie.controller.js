@@ -10,18 +10,19 @@ exports.addMovie = async (req, res) => {
         message: "Invalid",
       });
     }
-    const movie = await Movie.create({
-      title,
-      genre,
-      description,
-      release_year,
-      director,
-      image: file?.filename,
-    });
+    // const movie = await Movie.create({
+    //   title,
+    //   genre,
+    //   description,
+    //   release_year,
+    //   director,
+    //   image: file?.filename,
+    // });
 
+    console.log(file, "from frontend successfully created");
     res.status(201).json({
       message: "Movie Created Successfully",
-      movie,
+      // movie,
     });
   } catch (error) {
     res.status(500).json({
@@ -86,7 +87,7 @@ exports.deleteMovie = async (req, res) => {
       });
     }
     res.status(200).json({
-      message: "Movie deleted successfully",  
+      message: "Movie deleted successfully",
     });
   } catch (error) {
     res.status(500).json({

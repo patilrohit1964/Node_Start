@@ -1,4 +1,6 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { MOVIE_URL } from "../utils/constants";
 
 const MovieForm = () => {
     const [formData, setFormData] = useState({
@@ -7,17 +9,17 @@ const MovieForm = () => {
         director: "",
         release_year: "",
         description: "",
-        image: ""
+        image: null
     });
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
     const handleFileChange = (e) => {
         if (e.target.files[0]) {
-            setFormData({ ...formData, [e.target.name]: e.target.files?.[0] });
+            setFormData({ ...formData, image: e.target.files?.[0] });
         }
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const convertInForm = new FormData()
         convertInForm.append("title", formData.title);
@@ -25,17 +27,29 @@ const MovieForm = () => {
         convertInForm.append("description", formData.description);
         convertInForm.append("image", formData.image);
         convertInForm.append("release_year", formData.release_year);
-        convertInForm.append("director", formData.director) 
+        convertInForm.append("director", formData.director);
         convertInForm.forEach((key, value) => {
             console.log(key, value)
         })
         // Handle form submission logic here
-        console.log(formData, "Form submitted!");
+
+        try {
+            const { data } = await axios.post(`${MOVIE_URL}/add-movie`, convertInForm, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log(data);
+        } catch (error) {
+            console.error('Error:', error?.message);
+        }
+
     };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-6">
-            <div className="bg-white p-8 rounded-lg shadow-lg transform transition duration-500 hover:scale-105 w-full max-w-lg">
+            <div className="bg-white p-8 rounded-lg shadow-lg transform transition duration-500  w-full max-w-lg">
                 <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-8 animate-pulse">
                     Add Movie
                 </h1>
@@ -131,7 +145,6 @@ const MovieForm = () => {
                             type="file"
                             id="file"
                             onChange={handleFileChange}
-                            value={formData.image}
                             name="file"
                             placeholder="movie image"
                             className="w-full px-4 py-2 bg-gray-100 rounded-lg shadow focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
@@ -148,6 +161,9 @@ const MovieForm = () => {
                         </label>
                         <textarea
                             id="description"
+                            onChange={handleChange}
+                            value={formData.description}
+                            name="description"
                             placeholder="Enter the movie description"
                             className="w-full px-4 py-2 bg-gray-100 rounded-lg shadow focus:outline-none focus:ring-4 focus:ring-indigo-400 transition"
                             rows="4"
