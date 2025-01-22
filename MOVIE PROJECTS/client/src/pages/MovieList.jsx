@@ -1,4 +1,6 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { MOVIE_URL } from "../utils/constants";
 
 const MovieList = () => {
     // Mock data for movies (replace with API fetch or props as needed)
@@ -30,6 +32,13 @@ const MovieList = () => {
         // Add more movies here...
     ]);
 
+    const getMoviesData = async () => {
+        const { data } = await axios.get(`${MOVIE_URL}/get-movies`);
+        console.log(data);
+    }
+    useEffect(() => {
+        getMoviesData();
+    }, [])
     return (
         <div className="min-h-screen bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-6">
             <h1 className="text-4xl font-extrabold text-center text-white mb-8 animate-pulse">
@@ -43,6 +52,16 @@ const MovieList = () => {
                     >
                         {/* Animated Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-r from-indigo-300 to-pink-300 opacity-0 hover:opacity-30 transition duration-300 rounded-lg"></div>
+
+                        {/* Image Section */}
+                        <div className="mb-4">
+                            <img
+                                src={`http://localhost:6060/${movie.imageUrl}` || "https://via.placeholder.com/150"}
+                                alt={movie.title}
+                                className="w-full h-48 object-cover rounded-t-lg"
+                            />
+                        </div>
+
                         {/* Movie Info */}
                         <h2 className="text-2xl font-bold text-gray-800">{movie.title}</h2>
                         <p className="text-sm text-gray-600 mt-2">
@@ -52,14 +71,14 @@ const MovieList = () => {
                             <span className="font-semibold">Director:</span> {movie.director}
                         </p>
                         <p className="text-sm text-gray-600">
-                            <span className="font-semibold">Release Year:</span>{" "}
-                            {movie.release_year}
+                            <span className="font-semibold">Release Year:</span> {movie.release_year}
                         </p>
                         <p className="text-sm text-gray-600 mt-4">{movie.description}</p>
                     </div>
                 ))}
             </div>
         </div>
+
     );
 };
 
