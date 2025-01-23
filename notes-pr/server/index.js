@@ -7,7 +7,7 @@ const connectDB = require("./database/db");
 const fileUpload = require("express-fileupload");
 require("dotenv").config({ path: "./config/.env" });
 
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json({}));
 app.set("view engine", "ejs");
 // app.use(fileUpload());
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
