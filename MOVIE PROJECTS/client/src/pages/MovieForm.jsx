@@ -33,7 +33,7 @@ const MovieForm = () => {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             });
             console.log(data);
