@@ -21,23 +21,19 @@ const MovieForm = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const convertInForm = new FormData()
-        convertInForm.append("title", formData.title);
-        convertInForm.append("genre", formData.genre);
-        convertInForm.append("description", formData.description);
-        convertInForm.append("image", formData.image);
-        convertInForm.append("release_year", formData.release_year);
-        convertInForm.append("director", formData.director);
-        convertInForm.forEach((key, value) => {
-            console.log(key, value)
-        })
-        // Handle form submission logic here
-
         try {
+            const convertInForm = new FormData()
+            convertInForm.append("title", formData.title);
+            convertInForm.append("genre", formData.genre);
+            convertInForm.append("description", formData.description);
+            convertInForm.append("image", formData.image);
+            convertInForm.append("release_year", formData.release_year);
+            convertInForm.append("director", formData.director);
             const { data } = await axios.post(`${MOVIE_URL}/add-movie`, convertInForm, {
                 withCredentials: true,
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`
                 }
             });
             console.log(data);
