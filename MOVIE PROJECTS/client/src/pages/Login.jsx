@@ -26,7 +26,6 @@ const Login = () => {
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", JSON.stringify(data.token));
             }
-            console.log(data)
             setFormData({
                 email: '',
                 password: ''

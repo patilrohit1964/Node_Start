@@ -29,11 +29,12 @@ const MovieForm = () => {
             convertInForm.append("image", formData.image);
             convertInForm.append("release_year", formData.release_year);
             convertInForm.append("director", formData.director);
+            const token = localStorage.getItem("token");
             const { data } = await axios.post(`${MOVIE_URL}/add-movie`, convertInForm, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    "Authorization": `Bearer ${token}`
                 }
             });
             console.log(data);

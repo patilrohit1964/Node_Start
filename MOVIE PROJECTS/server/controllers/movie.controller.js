@@ -20,6 +20,7 @@ exports.addMovie = async (req, res) => {
     // });
 
     console.log(file, "from frontend successfully created");
+    console.log(req.user, "iam user");
     res.status(201).json({
       message: "Movie Created Successfully",
       // movie,
