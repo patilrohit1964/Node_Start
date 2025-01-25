@@ -1,44 +1,29 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { MOVIE_URL } from "../utils/constants";
+import { toast } from "react-toastify";
 
 const MovieList = () => {
     // Mock data for movies (replace with API fetch or props as needed)
-    const [movies, setMovies] = useState([
-        {
-            id: 1,
-            title: "Inception",
-            genre: "Sci-Fi",
-            director: "Christopher Nolan",
-            release_year: 2010,
-            description: "A skilled thief is given a chance at redemption.",
-        },
-        {
-            id: 2,
-            title: "The Dark Knight",
-            genre: "Action",
-            director: "Christopher Nolan",
-            release_year: 2008,
-            description: "A battle between Batman and the Joker in Gotham City.",
-        },
-        {
-            id: 3,
-            title: "Interstellar",
-            genre: "Sci-Fi",
-            director: "Christopher Nolan",
-            release_year: 2014,
-            description: "Exploration of a wormhole for humanity's survival.",
-        },
-        // Add more movies here...
-    ]);
+    const [movies, setMovies] = useState([]);
 
     const getMoviesData = async () => {
-        const { data } = await axios.get(`${MOVIE_URL}/get-movies`);
-        console.log(data);
+        try {
+            const { data } = await axios.get(`${MOVIE_URL}/get-movies`, {
+                withCredentials: true
+            });
+            if (data?.success) {
+                toast.success(data?.message || "Movies Fetched successfully")
+                setMovies(data?.movies);
+            }
+        } catch (error) {
+            console.error("Error fetching movies:", error);
+        }
     }
     useEffect(() => {
         getMoviesData();
     }, [])
+    console.log(movies)
     return (
         <div className="min-h-screen bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-6">
             <h1 className="text-4xl font-extrabold text-center text-white mb-8 animate-pulse">

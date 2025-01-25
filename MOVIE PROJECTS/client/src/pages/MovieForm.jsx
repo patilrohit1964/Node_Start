@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import { MOVIE_URL } from "../utils/constants";
 
 const MovieForm = () => {
@@ -29,15 +30,23 @@ const MovieForm = () => {
             convertInForm.append("image", formData.image);
             convertInForm.append("release_year", formData.release_year);
             convertInForm.append("director", formData.director);
-            const token = localStorage.getItem("token");
             const { data } = await axios.post(`${MOVIE_URL}/add-movie`, convertInForm, {
-                withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    "Authorization": `Bearer ${token}`
-                }
+                },
+                withCredentials: true,
             });
-            console.log(data);
+            if (data?.success) {
+                toast.success(data?.message || "Movie added successfully");
+                setFormData({
+                    title: "",
+                    genre: "",
+                    director: "",
+                    release_year: "",
+                    description: "",
+                    image: null
+                })
+            }
         } catch (error) {
             console.error('Error:', error?.message);
         }

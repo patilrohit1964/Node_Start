@@ -10,20 +10,19 @@ exports.addMovie = async (req, res) => {
         message: "Invalid",
       });
     }
-    // const movie = await Movie.create({
-    //   title,
-    //   genre,
-    //   description,
-    //   release_year,
-    //   director,
-    //   image: file?.filename,
-    // });
-
-    console.log(file, "from frontend successfully created");
-    console.log(req.user, "iam user");
+    const movie = await Movie.create({
+      title,
+      genre,
+      description,
+      release_year,
+      director,
+      image: file?.filename,
+      userId: req.user,
+    });
     res.status(201).json({
+      success: true,
       message: "Movie Created Successfully",
-      // movie,
+      movie,
     });
   } catch (error) {
     res.status(500).json({
@@ -33,15 +32,16 @@ exports.addMovie = async (req, res) => {
   }
 };
 
-exports.getMovies = async (req, res) => {
+exports.getMoviesByUserId = async (req, res) => {
   try {
-    const movies = await Movie.find().lean();
+    const movies = await Movie.find({ userId: req.user }).lean();
     res.status(200).json({
       message: "Fetched Movies Successfully",
       movies,
     });
   } catch (error) {
     res.status(500).json({
+      success: true,
       message: "Error fetching movies",
       error: error.message,
     });
@@ -116,3 +116,5 @@ exports.getMovieById = async (req, res) => {
     });
   }
 };
+
+// fetched movies with user id
