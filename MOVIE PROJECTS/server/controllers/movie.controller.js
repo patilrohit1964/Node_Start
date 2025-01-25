@@ -57,25 +57,31 @@ exports.updateMovie = async (req, res) => {
     const file = req.file;
     const updateData = {
       title,
-      genre,
+      genre, 
       description,
       release_year,
-      director,
-      image,
+      director
     };
     if (file) {
-      updateData.image = file;
+      updateData.image = file.filename; // Fix 1: Use file.filename instead of file
     }
-    if (req.id) {
-      const movie = await Movie.findByIdAndUpdate(req.id, updateData, {
-        new: true,
-      });
-      res.status(200).json({
-        success: true,
-        message: "Movie updated successfully",
-        movie,
+
+    const movie = await Movie.findByIdAndUpdate(req.params.id, updateData, {
+      new: true,
+    });
+
+    if (!movie) { // Fix 2: Handle case where movie is not found
+      return res.status(404).json({
+        success: false,
+        message: "Movie not found"
       });
     }
+
+    res.status(200).json({
+      success: true,
+      message: "Movie updated successfully",
+      movie,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,

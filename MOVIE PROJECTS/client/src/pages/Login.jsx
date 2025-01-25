@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { USER_URL } from "../utils/constants";
 import { toast } from "react-toastify";
 
@@ -10,7 +10,7 @@ const Login = () => {
         email: '',
         password: ''
     })
-
+    const navigate = useNavigate("/")
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
@@ -25,6 +25,7 @@ const Login = () => {
                 toast.success(data.message || "User logged successfully");
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", JSON.stringify(data.token));
+                navigate("/");
             }
             setFormData({
                 email: '',
