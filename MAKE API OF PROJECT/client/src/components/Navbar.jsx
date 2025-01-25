@@ -35,7 +35,7 @@ const CustomNavbar = () => {
           {user ? (
             <Nav className="ml-auto  w-25 flex align-items-center justify-content-between">
               <Button className="btn btn-secondary" onClick={logoutHandler}>Logout</Button>
-              <p className='text-white pt-3'>Hello: {user.username.slice(0, 10) + " ..."}</p>
+              <p className='text-white pt-3'>Hello: {user?.username?.slice(0, 10) + " ..."}</p>
             </Nav>
           ) : null
           }
