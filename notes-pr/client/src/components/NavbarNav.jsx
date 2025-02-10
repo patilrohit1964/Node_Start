@@ -202,13 +202,13 @@ function NavbarNav() {
 
                             {user ? (
                                 <div className="pt-4 border-t border-gray-700">
-                                    <div className="flex items-center space-x-3 mb-4 border-2 border-gray-500 rounded-full h-10 w-10">
+                                    <div className="flex items-center space-x-3 mb-4 ">
                                         <img
                                             src={getProfileImageUrl(user?.profilePic)}
                                             alt="profile"
-                                            className="h-8 w-8 rounded-full border border-white"
-                                        />
-                                        <span>{user?.name}</span>
+                                            className="h-10 w-10 rounded-full border-2 border-gray-700"
+                                        /> <br />
+                                        <span>{user?.name || "Your Name"}</span>
                                     </div>
                                     <button
                                         onClick={() => {
