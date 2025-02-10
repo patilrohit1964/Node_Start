@@ -200,7 +200,7 @@ function EditMovie({ open, setOpen, movieData }) {
         }));
     };
 
-    const updateMovie = async (e) => { // Added missing e parameter
+    const updateMovie = async (e) => {
         e.preventDefault();
         const form = new FormData();
         form.append("title", formData.title);
