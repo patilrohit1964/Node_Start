@@ -38,7 +38,7 @@ function NavbarNav() {
 
     const getProfileImageUrl = (profilePicPath) => {
 
-        if (profilePicPath.charAt(0) === "h") {
+        if (profilePicPath?.charAt(0) === "h") {
             return profilePicPath
         }
         return `http://localhost:8000/${profilePicPath}`;
@@ -171,7 +171,7 @@ function NavbarNav() {
                         <div className="flex flex-col space-y-4">
                             <NavLink
                                 className={({ isActive }) =>
-                                    `nav-link no-underline text-white hover:text-gray-300 ${isActive ? 'text-blue-400 active' : ''
+                                    `nav-link no-underline dark:text-white hover:text-gray-300 ${isActive ? 'text-blue-400 active' : ''
                                     }`
                                 }
                                 to="/"
@@ -181,7 +181,7 @@ function NavbarNav() {
                             </NavLink>
                             <NavLink
                                 className={({ isActive }) =>
-                                    `nav-link no-underline text-white hover:text-gray-300 ${isActive ? 'text-blue-400 active' : ''
+                                    `nav-link no-underline dark:text-white hover:text-gray-300 ${isActive ? 'text-blue-400 active' : ''
                                     }`
                                 }
                                 to="/create-note"
@@ -191,7 +191,7 @@ function NavbarNav() {
                             </NavLink>
                             <NavLink
                                 className={({ isActive }) =>
-                                    `nav-link no-underline text-white hover:text-gray-300 ${isActive ? 'text-blue-400 active' : ''
+                                    `nav-link no-underline dark:text-white hover:text-gray-300 ${isActive ? 'text-blue-400 active' : ''
                                     }`
                                 }
                                 to="/show-notes"
@@ -202,20 +202,20 @@ function NavbarNav() {
 
                             {user ? (
                                 <div className="pt-4 border-t border-gray-700">
-                                    <div className="flex items-center space-x-3 mb-4">
+                                    <div className="flex items-center space-x-3 mb-4 border-2 border-gray-500 rounded-full h-10 w-10">
                                         <img
                                             src={getProfileImageUrl(user?.profilePic)}
                                             alt="profile"
                                             className="h-8 w-8 rounded-full border border-white"
                                         />
-                                        <span>{user.name}</span>
+                                        <span>{user?.name}</span>
                                     </div>
                                     <button
                                         onClick={() => {
                                             setShowProfileEdit(true);
                                             closeOffcanvas();
                                         }}
-                                        className="w-full text-left py-2 text-white hover:text-gray-300"
+                                        className="w-full text-left py-2 dark:text-white hover:text-gray-300"
                                     >
                                         Edit Profile
                                     </button>
@@ -224,7 +224,7 @@ function NavbarNav() {
                                             handleLogout();
                                             closeOffcanvas();
                                         }}
-                                        className="w-full text-left py-2 text-white hover:text-gray-300"
+                                        className="w-full text-left py-2 dark:text-white hover:text-gray-300"
                                     >
                                         Sign out
                                     </button>
