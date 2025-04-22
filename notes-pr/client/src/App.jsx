@@ -16,7 +16,7 @@ import AllUsers from './pages/admin/AllUsers'
 import Dashboard from './pages/admin/Dashboard'
 import AllNotes from './pages/admin/AllNotes'
 import Otp from './pages/Otp'
-
+import Footer from "./pages/Footer"
 function App() {
 
   return (
@@ -49,6 +49,7 @@ function App() {
             </Route>
           </Routes>
         </div>
+        <Footer />
       </div>
     </ThemeProvider>
   )
