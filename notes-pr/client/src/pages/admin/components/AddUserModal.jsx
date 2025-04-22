@@ -80,7 +80,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
-                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-sky-500 focus:ring-sky-500"
+                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-sky-500 focus:ring-sky-500 outline-none border-b border-b-blue-500"
                                         />
                                     </div>
 
@@ -94,7 +94,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
-                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-sky-500 focus:ring-sky-500"
+                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-sky-500 focus:ring-sky-500 outline-none border-b border-b-blue-500"
                                         />
                                     </div>
 
@@ -108,7 +108,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
                                             value={formData.password}
                                             onChange={handleChange}
                                             required
-                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-sky-500 focus:ring-sky-500"
+                                            className="mt-1 ps-2 block w-full rounded-md theme-input focus:border-sky-500 focus:ring-sky-500 outline-none border-b border-b-blue-500"
                                         />
                                     </div>
 
