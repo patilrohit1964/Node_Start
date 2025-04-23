@@ -34,31 +34,17 @@ const noteRoutes = require("./routes/note.route");
 const adminRoutes = require("./routes/admin.route");
 const createOtp = require("./utils/otpGenerator");
 const sendMail = require("./utils/sendEmail");
+const path = require("path");
 app.use("/api/user", userRoutes);
 app.use("/api/note", noteRoutes);
 app.use("/api/admin", adminRoutes);
 const PORT = process.env.PORT || 3000;
-
-app.get("/tp", async (req, res) => {
-  const userInfo = {
-    email: "jadhav@gmail.com",
-    password: "password",
-    name: "chetan",
-  };
-  // const { otp, token } = createOtp(userInfo);
-  // const htmlTemplate = await ejs.renderFile(
-  //   __dirname + "/views/verifyOtp.ejs",
-  //   { otp, name: userInfo.name }
-  // );
-  // const mailchecker = await sendMail("adsfsdf", htmlTemplate);
-  // if (mailchecker) {
-  //   console.log(mailchecker);
-  // } else {
-  //   console.log("Error sending email");
-  // }
-  res.render("verifyOtp.ejs");
+// serve static files from client/build
+app.use(express.static(path.join(__dirname, "../client/dist")));
+// for any route
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
-
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
